@@ -21,6 +21,9 @@ public class Welcome extends AppCompatActivity {
     Button checkingBtn;
     AlertDialog.Builder showAskPermission;
 
+    String username;
+    String password;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +40,8 @@ public class Welcome extends AppCompatActivity {
                 SharedPreferences pref = getApplicationContext().getSharedPreferences("id.ac.umy.unires.mh.DATA_DIRI", MODE_PRIVATE);
                 SharedPreferences.Editor prefEdit = pref.edit();
                 if (pref.getString("uid", null) != null && pref.getString("pass", null) != null) {
+                    username = pref.getString("uid", null);
+                    password = pref.getString("pass", null);
                     // TODO : Intent ke halaman awal melalui login dengan data yang disimpan
                 } else {
                     // TODO : Intent ke halaman login
