@@ -2,9 +2,11 @@ package id.ac.umy.unires.mh;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +17,7 @@ import android.widget.Button;
 public class Welcome extends AppCompatActivity {
 
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
+    ProgressDialog checkBar;
     Button checkingBtn;
     AlertDialog.Builder showAskPermission;
 
@@ -24,6 +27,7 @@ public class Welcome extends AppCompatActivity {
         setContentView(R.layout.activity_welcome);
 
         checkingBtn = findViewById(R.id.CheckingBtn);
+        checkBar = new ProgressDialog(this);
         showAskPermission = new AlertDialog.Builder(this);
 
         checkingBtn.setOnClickListener(new View.OnClickListener() {
@@ -39,6 +43,7 @@ public class Welcome extends AppCompatActivity {
                 }
 
                 prefEdit.apply();
+                checkBar.dismiss();
             }
         });
     }
@@ -56,7 +61,7 @@ public class Welcome extends AppCompatActivity {
                     }).show();
         }
         else {
-
+            LoadingBarCheck();
         }
 
     }
@@ -72,5 +77,11 @@ public class Welcome extends AppCompatActivity {
                 //CheckLocationPermission();
             }
         }
+    }
+
+    private void LoadingBarCheck(){
+        checkBar.setTitle("Please Wait...");
+        checkBar.setMessage("While We're Checking your Data");
+        checkBar.show();
     }
 }
