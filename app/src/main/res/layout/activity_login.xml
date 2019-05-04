@@ -26,7 +26,7 @@
         android:id="@+id/PassET"
         android:layout_width="246dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/NamaET"
+        android:layout_below="@+id/EmailET"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_marginStart="73dp"
