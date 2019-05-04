@@ -2,9 +2,13 @@ package id.ac.umy.unires.mh;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class login extends AppCompatActivity {
 
@@ -35,6 +39,11 @@ public class login extends AppCompatActivity {
     }
 
     private void Login(String email, String password) {
+        if(TextUtils.isEmpty(email) && TextUtils.isEmpty(password)){
+            Toast.makeText(this,"Harap Masukkan email dan password anda", Toast.LENGTH_LONG).show();
+        }
+        else {
 
+        }
     }
 }
