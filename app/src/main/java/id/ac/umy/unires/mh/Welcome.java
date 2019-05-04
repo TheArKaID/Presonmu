@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Message;
@@ -44,7 +45,9 @@ public class Welcome extends AppCompatActivity {
                     password = pref.getString("pass", null);
                     // TODO : Intent ke halaman awal melalui login dengan data yang disimpan
                 } else {
-                    // TODO : Intent ke halaman login
+                    Intent loginIntent = new Intent(getApplicationContext(), login.class);
+                    loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(loginIntent);
                 }
 
                 prefEdit.apply();
