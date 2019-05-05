@@ -1,5 +1,6 @@
 package id.ac.umy.unires.mh;
 
+import android.app.ProgressDialog;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,6 +17,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,6 +35,8 @@ public class login extends AppCompatActivity {
     Map dataUser;
 
     FirebaseFirestore db;
+    ProgressDialog checkBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,10 +47,12 @@ public class login extends AppCompatActivity {
         login = findViewById(R.id.LoginBtn);
         db = FirebaseFirestore.getInstance();
         dataUser = new HashMap();
+        checkBar = new ProgressDialog(this);
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                LoadingBarCheck();
                 email = emailET.getText().toString();
                 password = passwordET.getText().toString();
 
@@ -55,27 +62,57 @@ public class login extends AppCompatActivity {
     }
 
     private void Login(String email, String password) {
-        if(TextUtils.isEmpty(email) || TextUtils.isEmpty(password)){
-            Toast.makeText(this,"Harap Masukkan email dan password anda", Toast.LENGTH_LONG).show();
-        }
-        else {
+        String passHashed = md5(password);
+        password = passHashed;
+        if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
+            Toast.makeText(this, "Harap Masukkan email dan password anda", Toast.LENGTH_LONG).show();
+        } else {
             db.collection("users").whereEqualTo("email", email).whereEqualTo("password", password)
                     .get()
                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                             if (task.isSuccessful()) {
-                                if(!task.getResult().isEmpty()){
+                                if (!task.getResult().isEmpty()) {
                                     QuerySnapshot qs = task.getResult();
                                     List<DocumentSnapshot> qds = qs.getDocuments();
                                     dataUser.putAll(qds.get(0).getData());
+                                    checkBar.dismiss();
+                                } else {
+                                    checkBar.dismiss();
+                                    Toast.makeText(login.this, "Email dan Password anda tidak sesuai", Toast.LENGTH_LONG).show();
                                 }
                             } else {
+                                checkBar.dismiss();
                                 Log.w("FragmentActivity", "Error getting documents.", task.getException());
                             }
                         }
                     });
 
+        }
+
+    }
+
+    private void LoadingBarCheck() {
+        checkBar.setTitle("Please Wait...");
+        checkBar.setMessage("While We're Checking your Data");
+        checkBar.show();
+    }
+
+    public static final String md5(final String toEncrypt) {
+        String result = "";
+        try {
+            final MessageDigest digest = MessageDigest.getInstance("md5");
+            digest.update(toEncrypt.getBytes());
+            final byte[] bytes = digest.digest();
+            final StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < bytes.length; i++) {
+                sb.append(String.format("%02X", bytes[i]));
+            }
+            result = sb.toString().toLowerCase();
+            return result;
+        } catch (Exception exc) {
+            return result; // Impossibru!
         }
     }
 }
