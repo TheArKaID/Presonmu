@@ -1,6 +1,7 @@
 package id.ac.umy.unires.mh;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.security.MessageDigest;
@@ -32,7 +34,7 @@ public class login extends AppCompatActivity {
     String email;
     String password;
 
-    Map dataUser;
+    Map<String, Object> dataUser;
 
     FirebaseFirestore db;
     ProgressDialog checkBar;
@@ -74,10 +76,21 @@ public class login extends AppCompatActivity {
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                             if (task.isSuccessful()) {
                                 if (!task.getResult().isEmpty()) {
-                                    QuerySnapshot qs = task.getResult();
-                                    List<DocumentSnapshot> qds = qs.getDocuments();
-                                    dataUser.putAll(qds.get(0).getData());
+                                    for (QueryDocumentSnapshot document : task.getResult()) {
+                                        dataUser.putAll(document.getData());
+                                    }
                                     checkBar.dismiss();
+
+                                    final Bundle bundle = new Bundle();
+
+                                    for(Map.Entry<String, Object> entry : dataUser.entrySet()){
+                                        bundle.putString(entry.getKey(), entry.getValue().toString());
+                                    }
+
+                                    Intent mainIntent = new Intent(login.this, MainActivity.class);
+                                    mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    startActivity(mainIntent);
+
                                 } else {
                                     checkBar.dismiss();
                                     Toast.makeText(login.this, "Email dan Password anda tidak sesuai", Toast.LENGTH_LONG).show();
