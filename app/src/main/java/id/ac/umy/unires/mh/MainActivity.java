@@ -1,5 +1,8 @@
 package id.ac.umy.unires.mh;
 
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -9,10 +12,11 @@ import android.view.MenuItem;
 
 import java.util.Objects;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout mDrawerlayout;
     private ActionBarDrawerToggle mToggle;
+    private NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,10 +27,30 @@ public class MainActivity extends AppCompatActivity {
 
         mDrawerlayout = (DrawerLayout) findViewById(R.id.activity_main);
         mToggle = new ActionBarDrawerToggle(this, mDrawerlayout, R.string.open, R.string.close);
+        navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
 
         mDrawerlayout.addDrawerListener(mToggle);
         mToggle.syncState();
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        if(savedInstanceState == null){
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentMain, new home()).commit();
+            navigationView.setCheckedItem(R.id.homeMenu);
+        }
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        switch (menuItem.getItemId()){
+            case R.id.homeMenu:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentMain, new home()).commit();
+                break;
+        }
+
+        mDrawerlayout.closeDrawer(GravityCompat.START);
+
+        return true;
     }
 
     @Override
