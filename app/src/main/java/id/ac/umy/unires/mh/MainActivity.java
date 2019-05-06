@@ -49,6 +49,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.presensiMenu:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragmentMain, new presensi()).commit();
                 break;
+            case R.id.riwayatMenu:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentMain, new riwayat()).commit();
+                break;
+            case  R.id.profileMenu:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentMain, new profile()).commit();
+                break;
+            case R.id.aboutMenu:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentMain, new about()).commit();
+                break;
+            case  R.id.exitMenu:
+                //TODO: Add method to close the application
+                break;
         }
 
         navigationView.setCheckedItem(menuItem.getItemId());
