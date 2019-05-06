@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/homeMenu" android:title="Home"/>
-    <item android:id="@+id/presensiMenu" android:title="Presensi"/>
-    <item android:id="@+id/riwayatMenu" android:title="Riwayat"/>
-    <item android:id="@+id/profileMenu" android:title="Profile"/>
-    <item android:id="@+id/aboutMenu" android:title="About"/>
-    <item android:id="@+id/exitMenu" android:title="Exit"/>
+    <item android:id="@+id/homeMenu" android:title="Home" android:icon="@drawable/icon_home"/>
+    <item android:id="@+id/presensiMenu" android:title="Presensi" android:icon="@drawable/icon_present"/>
+    <item android:id="@+id/riwayatMenu" android:title="Riwayat" android:icon="@drawable/icon_history"/>
+    <item android:id="@+id/profileMenu" android:title="Profile" android:icon="@drawable/icon_profile"/>
+    <item android:id="@+id/aboutMenu" android:title="About" android:icon="@drawable/icon_about"/>
+    <item android:id="@+id/exitMenu" android:title="Exit" android:icon="@drawable/icon_close"/>
 </menu>
