@@ -9,9 +9,10 @@
     tools:context="id.ac.umy.unires.mh.MainActivity">
 
     <android.support.design.widget.NavigationView
+        app:headerLayout="@layout/drawer_menu_header"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:background="@color/colorWhite"
+        android:background="@color/colorPrimaryDark"
         app:itemTextColor="@color/colorAccent"
         app:itemIconTint="@color/colorAccent"
         app:menu="@menu/drawermenu"
