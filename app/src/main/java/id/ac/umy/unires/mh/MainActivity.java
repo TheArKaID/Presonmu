@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
         }
 
+        navigationView.setCheckedItem(menuItem.getItemId());
         mDrawerlayout.closeDrawer(GravityCompat.START);
 
         return true;
