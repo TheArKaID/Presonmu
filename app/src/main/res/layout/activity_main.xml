@@ -6,7 +6,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:fitsSystemWindows="true"
+    tools:context="id.ac.umy.unires.mh.MainActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -20,9 +21,8 @@
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimaryDark"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
-        <fragment
+        <FrameLayout
             android:id="@+id/fragmentMain"
-            class="id.ac.umy.unires.mh.home"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
     </LinearLayout>
