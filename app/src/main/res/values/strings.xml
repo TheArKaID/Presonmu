@@ -2,4 +2,6 @@
     <string name="app_name">Presonmuh</string>
     <string name="open">Open</string>
     <string name="close">Close</string>
+
+    <string name="aboutText">   Presonmuh aka Presensi Online Mubaligh Hijrah adalah aplikasi Presensi berbasis Android yang dikembangkan oleh salah seorang Pengabdi Unires, sebut saja Mawar Merah. Aplikasi ini dikembangkan pada tahun #2019, tepaatnya saat Mubaligh Hijrah sedang berlangsung, atau saat bulan Ramadhan, atau saat bulan Mei.</string>
 </resources>
