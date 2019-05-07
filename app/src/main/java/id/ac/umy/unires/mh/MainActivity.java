@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragmentMain, new about()).commit();
                 break;
             case  R.id.exitMenu:
-                //TODO: Add method to close the application
+                finishAndRemoveTask();
                 break;
         }
 
