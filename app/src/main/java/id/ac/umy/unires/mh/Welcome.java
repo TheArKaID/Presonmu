@@ -12,8 +12,19 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Welcome extends AppCompatActivity {
 
@@ -21,18 +32,24 @@ public class Welcome extends AppCompatActivity {
     ProgressDialog checkBar;
     Button checkingBtn;
     AlertDialog.Builder showAskPermission;
+    FirebaseFirestore db;
 
-    String username;
+    String email;
     String password;
+
+    Map<String, Object> dataUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
 
+        dataUser = new HashMap();
+
         checkingBtn = findViewById(R.id.CheckingBtn);
         checkBar = new ProgressDialog(this);
         showAskPermission = new AlertDialog.Builder(this);
+        db = FirebaseFirestore.getInstance();
 
         checkingBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,9 +98,10 @@ public class Welcome extends AppCompatActivity {
         LoadingBarCheck();
         SharedPreferences pref = getApplicationContext().getSharedPreferences("id.ac.umy.unires.mh.DATA_DIRI", MODE_PRIVATE);
         SharedPreferences.Editor prefEdit = pref.edit();
-        if (pref.getString("uid", null) != null && pref.getString("pass", null) != null) {
-            username = pref.getString("uid", null);
+        if (pref.getString("email", null) != null && pref.getString("pass", null) != null) {
+            email = pref.getString("email", null);
             password = pref.getString("pass", null);
+            LoginandIntent(email, password);
             // TODO : Intent ke halaman awal melalui login dengan data yang disimpan
         } else {
             Intent loginIntent = new Intent(getApplicationContext(), login.class);
@@ -93,5 +111,37 @@ public class Welcome extends AppCompatActivity {
 
         prefEdit.apply();
         checkBar.dismiss();
+    }
+
+    private void LoginandIntent(String email, String password) {
+        db.collection("users").whereEqualTo("email", email).whereEqualTo("password", password)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                dataUser.putAll(document.getData());
+                            }
+                            checkBar.dismiss();
+
+                            final Bundle bundle = new Bundle();
+
+                            for(Map.Entry<String, Object> entry : dataUser.entrySet()){
+                                bundle.putString(entry.getKey(), entry.getValue().toString());
+                            }
+
+                            Intent mainIntent = new Intent(Welcome.this, MainActivity.class);
+                            mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(mainIntent);
+
+
+                        } else {
+                            checkBar.dismiss();
+                            Log.w("FragmentActivity", "Error getting documents.", task.getException());
+                        }
+                    }
+                });
+
     }
 }

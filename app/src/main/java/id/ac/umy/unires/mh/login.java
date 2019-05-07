@@ -2,6 +2,7 @@ package id.ac.umy.unires.mh;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -63,12 +64,21 @@ public class login extends AppCompatActivity {
         });
     }
 
-    private void Login(String email, String password) {
+    public void Login(String email, String password) {
         String passHashed = md5(password);
         password = passHashed;
         if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
             Toast.makeText(this, "Harap Masukkan email dan password anda", Toast.LENGTH_LONG).show();
         } else {
+
+            SharedPreferences pref = getApplicationContext().getSharedPreferences("id.ac.umy.unires.mh.DATA_DIRI", MODE_PRIVATE);
+            SharedPreferences.Editor prefEdit = pref.edit();
+
+            prefEdit.putString("email", email);
+            prefEdit.putString("pass", password);
+
+            prefEdit.apply();
+
             db.collection("users").whereEqualTo("email", email).whereEqualTo("password", password)
                     .get()
                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
