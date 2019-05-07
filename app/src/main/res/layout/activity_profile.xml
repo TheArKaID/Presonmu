@@ -1,18 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".profile">
+    tools:context=".profile"
+    android:gravity="center_horizontal">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentStart="true"
-        android:textAlignment="center"
-        android:text="PROFILE"
-        android:textSize="100sp"/>
-</RelativeLayout>
+        android:orientation="vertical">
+        <ImageView
+            android:id="@+id/profileFotoProfile"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/icon_profile"
+            android:backgroundTint="@color/colorPrimaryDark"/>
+        <TextView
+            android:id="@+id/profileNama"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="start"
+            android:text="Arifia Kasastra R"
+            android:textColor="@color/colorPrimary"
+            android:textSize="20sp"/>
+        <TextView
+            android:id="@+id/profileJenisKelamin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="start"
+            android:text="Laki-laki"
+            android:textColor="@color/colorPrimary"
+            android:textSize="20sp"/>
+        <TextView
+            android:id="@+id/profileTTL"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="start"
+            android:text="Kalianda, 21 Oktober 1999"
+            android:textColor="@color/colorPrimary"
+            android:textSize="20sp"/>
+        <TextView
+            android:id="@+id/profileEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="start"
+            android:text="ArKa.Progammer@gmail.com"
+            android:textColor="@color/colorPrimary"
+            android:textSize="20sp"/>
+        <TextView
+            android:id="@+id/profileMasjidMH"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="start"
+            android:text="Al-Muharram"
+            android:textColor="@color/colorPrimary"
+            android:textSize="20sp"/>
+        <TextView
+            android:id="@+id/profileProdi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="start"
+            android:text="Teknologi Informasi"
+            android:textColor="@color/colorPrimary"
+            android:textSize="20sp"/>
+        <TextView
+            android:id="@+id/profileStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="start"
+            android:text="Masih Sendiri"
+            android:textColor="@color/colorPrimary"
+            android:textSize="20sp"/>
+        <Button
+            android:id="@+id/profileEditButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:layout_gravity="center"
+            android:text="Edit Profile"
+            android:background="@color/colorPrimaryDark"
+            android:textColor="@color/colorAccent"/>
+    </LinearLayout>
+</ScrollView>
