@@ -38,20 +38,7 @@ public class Welcome extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 CheckLocationPermission();
-                SharedPreferences pref = getApplicationContext().getSharedPreferences("id.ac.umy.unires.mh.DATA_DIRI", MODE_PRIVATE);
-                SharedPreferences.Editor prefEdit = pref.edit();
-                if (pref.getString("uid", null) != null && pref.getString("pass", null) != null) {
-                    username = pref.getString("uid", null);
-                    password = pref.getString("pass", null);
-                    // TODO : Intent ke halaman awal melalui login dengan data yang disimpan
-                } else {
-                    Intent loginIntent = new Intent(getApplicationContext(), login.class);
-                    loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(loginIntent);
-                }
 
-                prefEdit.apply();
-                //checkBar.dismiss();
             }
         });
     }
@@ -63,13 +50,12 @@ public class Welcome extends AppCompatActivity {
                     .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            ActivityCompat.requestPermissions(Welcome.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, MY_PERMISSIONS_REQUEST_LOCATION);
                             ActivityCompat.requestPermissions(Welcome.this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, MY_PERMISSIONS_REQUEST_LOCATION);
                         }
                     }).show();
         }
         else {
-            LoadingBarCheck();
+            intenter();
         }
 
     }
@@ -79,7 +65,7 @@ public class Welcome extends AppCompatActivity {
 //        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == MY_PERMISSIONS_REQUEST_LOCATION) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                LoadingBarCheck();
+                intenter();
                 return;
             }
         }
@@ -89,5 +75,23 @@ public class Welcome extends AppCompatActivity {
         checkBar.setTitle("Please Wait...");
         checkBar.setMessage("While We're Checking your Data");
         checkBar.show();
+    }
+
+    private void intenter(){
+        LoadingBarCheck();
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("id.ac.umy.unires.mh.DATA_DIRI", MODE_PRIVATE);
+        SharedPreferences.Editor prefEdit = pref.edit();
+        if (pref.getString("uid", null) != null && pref.getString("pass", null) != null) {
+            username = pref.getString("uid", null);
+            password = pref.getString("pass", null);
+            // TODO : Intent ke halaman awal melalui login dengan data yang disimpan
+        } else {
+            Intent loginIntent = new Intent(getApplicationContext(), login.class);
+            loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(loginIntent);
+        }
+
+        prefEdit.apply();
+        checkBar.dismiss();
     }
 }
