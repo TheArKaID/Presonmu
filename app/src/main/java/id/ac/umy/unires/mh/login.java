@@ -92,6 +92,7 @@ public class login extends AppCompatActivity {
         String passHashed = md5(password);
         password = passHashed;
         if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
+            checkBar.dismiss();
             Toast.makeText(this, "Harap Masukkan email dan password anda", Toast.LENGTH_LONG).show();
         } else {
             if (isInternetWorking()) {
@@ -147,6 +148,8 @@ public class login extends AppCompatActivity {
     private void LoadingBarCheck() {
         checkBar.setTitle("Please Wait...");
         checkBar.setMessage("While We're Checking your Data");
+        checkBar.setCanceledOnTouchOutside(false);
+        checkBar.setCancelable(false);
         checkBar.show();
     }
 

@@ -98,6 +98,8 @@ public class Welcome extends AppCompatActivity {
     private void LoadingBarCheck() {
         checkBar.setTitle("Please Wait...");
         checkBar.setMessage("While We're Checking your Data");
+        checkBar.setCanceledOnTouchOutside(false);
+        checkBar.setCancelable(false);
         checkBar.show();
     }
 
