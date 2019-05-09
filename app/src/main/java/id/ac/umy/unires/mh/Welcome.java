@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Message;
+import android.os.StrictMode;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -23,6 +24,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -43,6 +47,10 @@ public class Welcome extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
 
         dataUser = new HashMap();
 
@@ -70,8 +78,7 @@ public class Welcome extends AppCompatActivity {
                             ActivityCompat.requestPermissions(Welcome.this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, MY_PERMISSIONS_REQUEST_LOCATION);
                         }
                     }).show();
-        }
-        else {
+        } else {
             intenter();
         }
 
@@ -88,29 +95,34 @@ public class Welcome extends AppCompatActivity {
         }
     }
 
-    private void LoadingBarCheck(){
+    private void LoadingBarCheck() {
         checkBar.setTitle("Please Wait...");
         checkBar.setMessage("While We're Checking your Data");
         checkBar.show();
     }
 
-    private void intenter(){
+    private void intenter() {
         LoadingBarCheck();
-        SharedPreferences pref = getApplicationContext().getSharedPreferences("id.ac.umy.unires.mh.DATA_DIRI", MODE_PRIVATE);
-        SharedPreferences.Editor prefEdit = pref.edit();
-        if (pref.getString("email", null) != null && pref.getString("pass", null) != null) {
-            email = pref.getString("email", null);
-            password = pref.getString("pass", null);
-            LoginandIntent(email, password);
-            // TODO : Intent ke halaman awal melalui login dengan data yang disimpan
-        } else {
-            Intent loginIntent = new Intent(getApplicationContext(), login.class);
-            loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(loginIntent);
-        }
+        if (isInternetWorking()) {
+            SharedPreferences pref = getApplicationContext().getSharedPreferences("id.ac.umy.unires.mh.DATA_DIRI", MODE_PRIVATE);
+            SharedPreferences.Editor prefEdit = pref.edit();
+            if (pref.getString("email", null) != null && pref.getString("pass", null) != null) {
+                email = pref.getString("email", null);
+                password = pref.getString("pass", null);
+                LoginandIntent(email, password);
+                // TODO : Intent ke halaman awal melalui login dengan data yang disimpan
+            } else {
+                Intent loginIntent = new Intent(getApplicationContext(), login.class);
+                loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(loginIntent);
+            }
 
-        prefEdit.apply();
-        checkBar.dismiss();
+            prefEdit.apply();
+            checkBar.dismiss();
+        } else {
+            checkBar.dismiss();
+            Toast.makeText(Welcome.this, "Check your internet connection", Toast.LENGTH_LONG).show();
+        }
     }
 
     private void LoginandIntent(String email, String password) {
@@ -127,12 +139,12 @@ public class Welcome extends AppCompatActivity {
 
                             final Bundle bundle = new Bundle();
 
-                            for(Map.Entry<String, Object> entry : dataUser.entrySet()){
+                            for (Map.Entry<String, Object> entry : dataUser.entrySet()) {
                                 bundle.putString(entry.getKey(), entry.getValue().toString());
                             }
 
                             Intent mainIntent = new Intent(Welcome.this, MainActivity.class);
-                            mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                            mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(mainIntent);
 
 
@@ -143,5 +155,19 @@ public class Welcome extends AppCompatActivity {
                     }
                 });
 
+    }
+
+    public boolean isInternetWorking() {
+        boolean success = false;
+        try {
+            URL url = new URL("https://google.com");
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setConnectTimeout(10000);
+            connection.connect();
+            success = connection.getResponseCode() == 200;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return success;
     }
 }
