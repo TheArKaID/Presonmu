@@ -13,16 +13,18 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -30,18 +32,17 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
+import static id.ac.umy.unires.mh.login.md5;
+
 public class Welcome extends AppCompatActivity {
 
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
     ProgressDialog checkBar;
     Button checkingBtn;
     AlertDialog.Builder showAskPermission;
-    FirebaseFirestore db;
 
     String email;
     String password;
-
-    Map<String, Object> dataUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,13 +52,9 @@ public class Welcome extends AppCompatActivity {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
-
-        dataUser = new HashMap();
-
         checkingBtn = findViewById(R.id.CheckingBtn);
         checkBar = new ProgressDialog(this);
         showAskPermission = new AlertDialog.Builder(this);
-        db = FirebaseFirestore.getInstance();
 
         checkingBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,6 +111,9 @@ public class Welcome extends AppCompatActivity {
                 LoginandIntent(email, password);
                 // TODO : Intent ke halaman awal melalui login dengan data yang disimpan
             } else {
+                Bundle bundle = new Bundle();
+                bundle.putString("email", email);
+
                 Intent loginIntent = new Intent(getApplicationContext(), login.class);
                 loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(loginIntent);
@@ -127,35 +127,65 @@ public class Welcome extends AppCompatActivity {
         }
     }
 
-    private void LoginandIntent(String email, String password) {
-        db.collection("users").whereEqualTo("email", email).whereEqualTo("password", password)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+    private void LoginandIntent(final String email, final String password) {
+        if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
+            checkBar.dismiss();
+            Toast.makeText(this, "Harap Masukkan email dan password anda", Toast.LENGTH_LONG).show();
+        } else {
+            if (isInternetWorking()) {
+                StringRequest request = new StringRequest(Request.Method.POST, "http://presonmuh.epizy.com/login.php",
+                        new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                if(response.contains("Data Matched")){
+                                    SharedPreferences pref = getApplicationContext().getSharedPreferences("id.ac.umy.unires.mh.DATA_DIRI", MODE_PRIVATE);
+                                    SharedPreferences.Editor prefEdit = pref.edit();
+
+                                    prefEdit.putString("email", email);
+                                    prefEdit.putString("pass", password);
+
+                                    prefEdit.apply();
+                                    checkBar.dismiss();
+                                    Bundle bundle = new Bundle();
+                                    bundle.putString("email", email);
+//
+                                    Intent mainIntent = new Intent(Welcome.this, MainActivity.class);
+                                    mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    startActivity(mainIntent);
+                                } else{
+                                    Toast.makeText(Welcome.this, response, Toast.LENGTH_LONG).show();
+                                }
+                            }
+                        },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Toast.makeText(Welcome.this, error.toString(), Toast.LENGTH_LONG).show();
+                            }
+                        }){
                     @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                dataUser.putAll(document.getData());
-                            }
-                            checkBar.dismiss();
-
-                            final Bundle bundle = new Bundle();
-
-                            for (Map.Entry<String, Object> entry : dataUser.entrySet()) {
-                                bundle.putString(entry.getKey(), entry.getValue().toString());
-                            }
-
-                            Intent mainIntent = new Intent(Welcome.this, MainActivity.class);
-                            mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                            startActivity(mainIntent);
-
-
-                        } else {
-                            checkBar.dismiss();
-                            Log.w("FragmentActivity", "Error getting documents.", task.getException());
-                        }
+                    protected Map<String, String> getParams() throws AuthFailureError {
+                        Map<String,String> params = new HashMap<>();
+                        params.put("email", email);
+                        params.put("password", password);
+                        return params;
                     }
-                });
+
+                    @Override
+                    public Map<String, String> getHeaders() throws AuthFailureError {
+                        Map<String,String> params = new HashMap<>();
+                        params.put("User-Agent","Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36 Edge/12.10240 ");
+                        params.put("Cookie", "__test=e67a7a22c7fc413bd54775eec518e7bb; expires=Thu, 31-Dec-37 23:55:55 GMT; path=/");
+                        return params;
+                    }
+                };
+                Volley.newRequestQueue(this).add(request);
+
+            } else {
+                checkBar.dismiss();
+                Toast.makeText(Welcome.this, "Check your internet connection", Toast.LENGTH_LONG).show();
+            }
+        }
 
     }
 

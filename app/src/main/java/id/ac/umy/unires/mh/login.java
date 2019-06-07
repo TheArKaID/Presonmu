@@ -94,38 +94,36 @@ public class login extends AppCompatActivity {
             Toast.makeText(this, "Harap Masukkan email dan password anda", Toast.LENGTH_LONG).show();
         } else {
             if (isInternetWorking()) {
-
-
                 StringRequest request = new StringRequest(Request.Method.POST, "http://presonmuh.epizy.com/login.php",
-                        new Response.Listener<String>() {
-                            @Override
-                            public void onResponse(String response) {
-                                if(response.contains("Data Matched")){
-                                    SharedPreferences pref = getApplicationContext().getSharedPreferences("id.ac.umy.unires.mh.DATA_DIRI", MODE_PRIVATE);
-                                    SharedPreferences.Editor prefEdit = pref.edit();
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            if(response.contains("Data Matched")){
+                                SharedPreferences pref = getApplicationContext().getSharedPreferences("id.ac.umy.unires.mh.DATA_DIRI", MODE_PRIVATE);
+                                SharedPreferences.Editor prefEdit = pref.edit();
 
-                                    prefEdit.putString("email", email);
-                                    prefEdit.putString("pass", pass);
+                                prefEdit.putString("email", email);
+                                prefEdit.putString("pass", pass);
 
-                                    prefEdit.apply();
-                                    checkBar.dismiss();
-                                    Bundle bundle = new Bundle();
-                                    bundle.putString("email", email);
+                                prefEdit.apply();
+                                checkBar.dismiss();
+                                Bundle bundle = new Bundle();
+                                bundle.putString("email", email);
 //
-                                    Intent mainIntent = new Intent(login.this, MainActivity.class);
-                                    mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    startActivity(mainIntent);
-                                } else{
-                                    Toast.makeText(login.this, response, Toast.LENGTH_LONG).show();
-                                }
+                                Intent mainIntent = new Intent(login.this, MainActivity.class);
+                                mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(mainIntent);
+                            } else{
+                                Toast.makeText(login.this, response, Toast.LENGTH_LONG).show();
                             }
-                        },
-                        new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                Toast.makeText(login.this, error.toString(), Toast.LENGTH_LONG).show();
                         }
-                }){
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Toast.makeText(login.this, error.toString(), Toast.LENGTH_LONG).show();
+                        }
+                    }){
                     @Override
                     protected Map<String, String> getParams() throws AuthFailureError {
                         Map<String,String> params = new HashMap<>();
@@ -133,7 +131,6 @@ public class login extends AppCompatActivity {
                         params.put("password", pass);
                         return params;
                     }
-
                     @Override
                     public Map<String, String> getHeaders() throws AuthFailureError {
                         Map<String,String> params = new HashMap<>();
@@ -149,7 +146,6 @@ public class login extends AppCompatActivity {
                 Toast.makeText(login.this, "Check your internet connection", Toast.LENGTH_LONG).show();
             }
         }
-
     }
 
     private void LoadingBarCheck() {
