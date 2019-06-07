@@ -14,12 +14,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -39,9 +39,8 @@ public class login extends AppCompatActivity {
     String email;
     String password;
 
-    Map<String, Object> dataUser;
+//    Map<String, Object> dataUser;
 
-    FirebaseFirestore db;
     ProgressDialog checkBar;
 
     public static final String md5(final String toEncrypt) {
@@ -72,14 +71,13 @@ public class login extends AppCompatActivity {
         emailET = findViewById(R.id.EmailET);
         passwordET = findViewById(R.id.PassET);
         login = findViewById(R.id.LoginBtn);
-        db = FirebaseFirestore.getInstance();
-        dataUser = new HashMap();
-        checkBar = new ProgressDialog(this);
+//        dataUser = new HashMap();
+        checkBar = new ProgressDialog(login.this);
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LoadingBarCheck();
+
                 email = emailET.getText().toString();
                 password = passwordET.getText().toString();
 
@@ -88,54 +86,63 @@ public class login extends AppCompatActivity {
         });
     }
 
-    public void Login(String email, String password) {
-        String passHashed = md5(password);
-        password = passHashed;
+    public void Login(final String email, String password) {
+        //LoadingBarCheck();
+        final String pass =  md5(password);
         if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
             checkBar.dismiss();
             Toast.makeText(this, "Harap Masukkan email dan password anda", Toast.LENGTH_LONG).show();
         } else {
             if (isInternetWorking()) {
-                SharedPreferences pref = getApplicationContext().getSharedPreferences("id.ac.umy.unires.mh.DATA_DIRI", MODE_PRIVATE);
-                SharedPreferences.Editor prefEdit = pref.edit();
 
-                prefEdit.putString("email", email);
-                prefEdit.putString("pass", password);
 
-                prefEdit.apply();
-
-                db.collection("users").whereEqualTo("email", email).whereEqualTo("password", password)
-                        .get()
-                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                StringRequest request = new StringRequest(Request.Method.POST, "http://presonmuh.epizy.com/login.php",
+                        new Response.Listener<String>() {
                             @Override
-                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                if (task.isSuccessful()) {
-                                    if (!task.getResult().isEmpty()) {
-                                        for (QueryDocumentSnapshot document : task.getResult()) {
-                                            dataUser.putAll(document.getData());
-                                        }
-                                        checkBar.dismiss();
+                            public void onResponse(String response) {
+                                if(response.contains("Data Matched")){
+                                    SharedPreferences pref = getApplicationContext().getSharedPreferences("id.ac.umy.unires.mh.DATA_DIRI", MODE_PRIVATE);
+                                    SharedPreferences.Editor prefEdit = pref.edit();
 
-                                        final Bundle bundle = new Bundle();
+                                    prefEdit.putString("email", email);
+                                    prefEdit.putString("pass", pass);
 
-                                        for (Map.Entry<String, Object> entry : dataUser.entrySet()) {
-                                            bundle.putString(entry.getKey(), entry.getValue().toString());
-                                        }
-
-                                        Intent mainIntent = new Intent(login.this, MainActivity.class);
-                                        mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                        startActivity(mainIntent);
-
-                                    } else {
-                                        checkBar.dismiss();
-                                        Toast.makeText(login.this, "Email dan Password anda tidak sesuai", Toast.LENGTH_LONG).show();
-                                    }
-                                } else {
+                                    prefEdit.apply();
                                     checkBar.dismiss();
-                                    Log.w("FragmentActivity", "Error getting documents.", task.getException());
+                                    Bundle bundle = new Bundle();
+                                    bundle.putString("email", email);
+//
+                                    Intent mainIntent = new Intent(login.this, MainActivity.class);
+                                    mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    startActivity(mainIntent);
+                                } else{
+                                    Toast.makeText(login.this, response, Toast.LENGTH_LONG).show();
                                 }
                             }
-                        });
+                        },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Toast.makeText(login.this, error.toString(), Toast.LENGTH_LONG).show();
+                        }
+                }){
+                    @Override
+                    protected Map<String, String> getParams() throws AuthFailureError {
+                        Map<String,String> params = new HashMap<>();
+                        params.put("email", email);
+                        params.put("password", pass);
+                        return params;
+                    }
+
+                    @Override
+                    public Map<String, String> getHeaders() throws AuthFailureError {
+                        Map<String,String> params = new HashMap<>();
+                        params.put("User-Agent","Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36 Edge/12.10240 ");
+                        params.put("Cookie", "__test=e67a7a22c7fc413bd54775eec518e7bb; expires=Thu, 31-Dec-37 23:55:55 GMT; path=/");
+                        return params;
+                    }
+                };
+                Volley.newRequestQueue(this).add(request);
 
             } else {
                 checkBar.dismiss();
@@ -152,6 +159,8 @@ public class login extends AppCompatActivity {
         checkBar.setCancelable(false);
         checkBar.show();
     }
+
+
 
     public boolean isInternetWorking() {
         boolean success = false;
