@@ -1,5 +1,6 @@
 package id.ac.umy.unires.mh;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -28,8 +29,6 @@ public class presensi extends Fragment {
     TextView haridantanggal, shiftke;
     Button absen;
 
-    String haridantanggalnya, jam;
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -52,6 +51,11 @@ public class presensi extends Fragment {
                         try {
                             haridantanggal.setText(response.getString("tanggal"));
                             shiftke.setText(String.format("Shift ke %s", response.getString("shift")));
+
+                            if(!response.getBoolean("absenable")){
+                                absen.setClickable(response.getBoolean("absenable"));
+                                absen.setBackgroundColor(getResources().getColor(R.color.colorFalse));
+                            }
                             Log.d("Log, ", "Response => "+response.toString());
                         } catch (JSONException e) {
                             e.printStackTrace();
