@@ -32,6 +32,7 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
+import static id.ac.umy.unires.mh.Utils.ServerAPI.LOGIN_URL;
 import static id.ac.umy.unires.mh.login.md5;
 
 public class Welcome extends AppCompatActivity {
@@ -133,7 +134,7 @@ public class Welcome extends AppCompatActivity {
             Toast.makeText(this, "Harap Masukkan email dan password anda", Toast.LENGTH_LONG).show();
         } else {
             if (isInternetWorking()) {
-                StringRequest request = new StringRequest(Request.Method.POST, "https://presonmu.000webhostapp.com/login.php",
+                StringRequest request = new StringRequest(Request.Method.POST, LOGIN_URL,
                         new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
