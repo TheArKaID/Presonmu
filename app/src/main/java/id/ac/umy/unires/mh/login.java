@@ -94,7 +94,7 @@ public class login extends AppCompatActivity {
             Toast.makeText(this, "Harap Masukkan email dan password anda", Toast.LENGTH_LONG).show();
         } else {
             if (isInternetWorking()) {
-                StringRequest request = new StringRequest(Request.Method.POST, "http://presonmuh.epizy.com/login.php",
+                StringRequest request = new StringRequest(Request.Method.POST, "https://presonmu.000webhostapp.com/login.php",
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
@@ -121,7 +121,7 @@ public class login extends AppCompatActivity {
                     new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
-                            Toast.makeText(login.this, error.toString(), Toast.LENGTH_LONG).show();
+                            Toast.makeText(login.this, "Error Response =>"+error.toString(), Toast.LENGTH_LONG).show();
                         }
                     }){
                     @Override
@@ -131,13 +131,13 @@ public class login extends AppCompatActivity {
                         params.put("password", pass);
                         return params;
                     }
-                    @Override
-                    public Map<String, String> getHeaders() throws AuthFailureError {
-                        Map<String,String> params = new HashMap<>();
-                        params.put("User-Agent","Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36 Edge/12.10240 ");
-                        params.put("Cookie", "__test=e67a7a22c7fc413bd54775eec518e7bb; expires=Thu, 31-Dec-37 23:55:55 GMT; path=/");
-                        return params;
-                    }
+//                    @Override
+//                    public Map<String, String> getHeaders() throws AuthFailureError {
+//                        Map<String,String> params = new HashMap<>();
+//                        params.put("User-Agent","Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36 Edge/12.10240 ");
+//                        params.put("Cookie", "__test=bdcdab978ace2da77de09294366a1ddd; expires=Thu, 31-Dec-37 23:55:55 GMT; path=/");
+//                        return params;
+//                    }
                 };
                 Volley.newRequestQueue(this).add(request);
 
