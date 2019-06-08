@@ -14,14 +14,14 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
         android:layout_gravity="center"
-        android:text="Senin, 27 Mei 2019"/>
+        android:text="Hari, Tanggal Bulan Tahun"/>
     <TextView
         android:id="@+id/ShiftKe"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="50dp"
         android:layout_gravity="center"
-        android:text="Shift 1"/>
+        android:text="Shift x"/>
     <Button
         android:id="@+id/Absen"
         android:layout_width="match_parent"

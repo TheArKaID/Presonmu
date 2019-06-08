@@ -10,10 +10,15 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 public class presensi extends Fragment {
 
     TextView haridantanggal, shiftke;
     Button absen;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -24,6 +29,14 @@ public class presensi extends Fragment {
         shiftke = v.findViewById(R.id.ShiftKe);
         absen = v.findViewById(R.id.Absen);
 
+        haridantanggal.setText(getDate());
         return v;
+    }
+
+    String getDate(){
+        Date date = Calendar.getInstance().getTime();
+        SimpleDateFormat format = new SimpleDateFormat("EEE, dd MMM yyy");
+        String dates = format.format(date);
+        return dates;
     }
 }
