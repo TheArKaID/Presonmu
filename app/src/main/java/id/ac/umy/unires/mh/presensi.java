@@ -34,6 +34,8 @@ public class presensi extends Fragment {
     TextView haridantanggal, shiftke;
     Button absen;
 
+    String haridantanggalnya, shift;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -49,36 +51,42 @@ public class presensi extends Fragment {
         absen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                doAbsen(email);
+                cekAbsen(email);
             }
         });
         return v;
     }
 
-    private void doAbsen(String email) {
-        StringRequest cekAbsen = new StringRequest(Request.Method.POST, CEKABSEN_URL,
+    private void cekAbsen(final String email) {
+        StringRequest CekAbsen = new StringRequest(Request.Method.POST, CEKABSEN_URL,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        if(response.equals("Done")){
 
+                        } else{
+
+                        }
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
+                        Log.d("Error =>", error.getMessage());
                     }
                 }){
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
 
-
+                params.put("email", email);
+                params.put("tanggal", haridantanggalnya);
+                params.put("shift", shift);
 
                 return params;
             }
         };
-        Volley.newRequestQueue(getContext()).add(cekAbsen);
+        Volley.newRequestQueue(getContext()).add(CekAbsen);
     }
 
     private void loadData(){
@@ -87,8 +95,10 @@ public class presensi extends Fragment {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            haridantanggal.setText(response.getString("tanggal"));
-                            shiftke.setText(String.format("Shift ke %s", response.getString("shift")));
+                            haridantanggalnya = response.getString("tanggal");
+                            shift = response.getString("shift");
+                            haridantanggal.setText(haridantanggalnya);
+                            shiftke.setText(String.format("Shift ke %s", shift));
 
                             if(!response.getBoolean("absenable")){
                                 absen.setClickable(response.getBoolean("absenable"));
