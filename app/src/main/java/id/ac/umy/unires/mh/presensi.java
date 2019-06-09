@@ -1,5 +1,7 @@
 package id.ac.umy.unires.mh;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -51,7 +53,7 @@ public class presensi extends Fragment {
         absen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cekAbsen(email);
+                doAbsen();
             }
         });
         return v;
@@ -71,7 +73,10 @@ public class presensi extends Fragment {
                             if(!response.getBoolean("absenable")){
                                 absen.setClickable(response.getBoolean("absenable"));
                                 absen.setBackgroundColor(getResources().getColor(R.color.colorFalse));
+                            } else{
+                                cekAbsen(email);
                             }
+
                             Log.d("Log, ", "Response => "+response.toString());
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -93,9 +98,8 @@ public class presensi extends Fragment {
                     @Override
                     public void onResponse(String response) {
                         if(response.equals("Done")){
-                            doAbsen();
-                        } else{
                             didAbsen();
+                            Log.d("Response cek Absen => ", response);
                         }
                     }
                 },
@@ -120,17 +124,37 @@ public class presensi extends Fragment {
     }
 
     private void doAbsen() {
+        //TODO: Progress Bar When Absen
+        final AlertDialog.Builder notif = new AlertDialog.Builder(getContext());
         StringRequest absen = new StringRequest(Request.Method.POST, ABSEN_URL,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-
+                        if(response.equals("Sukses")){
+                            notif.setTitle("Sukses")
+                                    .setMessage("Anda Telah Absen")
+                                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            //TODO: Re call or Re Draw or anything to refresh the page
+                                        }
+                                    }).show();
+                        } else{
+                            notif.setTitle("Gagal")
+                                    .setMessage("Coba Lagi")
+                                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            //TODO: Re call or Re Draw or anything to refresh the page
+                                        }
+                                    }).show();
+                        }
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
+                        Log.d("onErrorResponse", error.getMessage());
                     }
                 }){
             @Override
@@ -144,6 +168,7 @@ public class presensi extends Fragment {
                 return params;
             }
         };
+        Volley.newRequestQueue(getContext()).add(absen);
     }
 
     private void didAbsen() {
