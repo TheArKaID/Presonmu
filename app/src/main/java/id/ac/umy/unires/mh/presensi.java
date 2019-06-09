@@ -57,38 +57,6 @@ public class presensi extends Fragment {
         return v;
     }
 
-    private void cekAbsen(final String email) {
-        StringRequest CekAbsen = new StringRequest(Request.Method.POST, CEKABSEN_URL,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        if(response.equals("Done")){
-
-                        } else{
-
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.d("Error =>", error.getMessage());
-                    }
-                }){
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = new HashMap<>();
-
-                params.put("email", email);
-                params.put("tanggal", haridantanggalnya);
-                params.put("shift", shift);
-
-                return params;
-            }
-        };
-        Volley.newRequestQueue(getContext()).add(CekAbsen);
-    }
-
     private void loadData(){
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, DATETIME_URL, null,
                 new Response.Listener<JSONObject>() {
@@ -118,4 +86,47 @@ public class presensi extends Fragment {
                 });
         Volley.newRequestQueue(getContext()).add(request);
     }
+
+    private void cekAbsen(final String email) {
+        StringRequest CekAbsen = new StringRequest(Request.Method.POST, CEKABSEN_URL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        if(response.equals("Done")){
+                            doAbsen();
+                        } else{
+                            didAbsen();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("Error =>", error.getMessage());
+                    }
+                }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+
+                params.put("email", email);
+                params.put("tanggal", haridantanggalnya);
+                params.put("shift", shift);
+
+                return params;
+            }
+        };
+        Volley.newRequestQueue(getContext()).add(CekAbsen);
+    }
+
+    private void doAbsen() {
+
+    }
+
+    private void didAbsen() {
+        absen.setClickable(false);
+        absen.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+        absen.setText("✓");
+    }
+
 }
