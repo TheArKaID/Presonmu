@@ -151,6 +151,7 @@ public class Welcome extends AppCompatActivity {
                                     bundle.putString("email", email);
 //
                                     Intent mainIntent = new Intent(Welcome.this, MainActivity.class);
+                                    mainIntent.putExtras(bundle);
                                     mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                     startActivity(mainIntent);
                                 } else{

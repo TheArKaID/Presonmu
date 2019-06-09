@@ -21,7 +21,8 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import static id.ac.umy.unires.mh.Utils.ServerAPI.DATETIME_URL;
+import static id.ac.umy.unires.mh.MainActivity.email;
+import static id.ac.umy.unires.mh.Utils.ServerAPI.*;
 
 public class presensi extends Fragment {
 
@@ -43,13 +44,13 @@ public class presensi extends Fragment {
         absen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                doAbsen();
+                doAbsen(email);
             }
         });
         return v;
     }
 
-    private void doAbsen() {
+    private void doAbsen(String email) {
 
     }
 
