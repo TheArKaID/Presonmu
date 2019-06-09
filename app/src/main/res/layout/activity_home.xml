@@ -28,19 +28,19 @@
                 android:id="@+id/namaPeserta"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Arifia Kasastra R"
-                android:textSize="15sp"/>
-            <TextView
-                android:id="@+id/emailPeserta"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="ArKa.Progammer@gmail.com"
+                android:text="Namanya"
                 android:textSize="15sp"/>
             <TextView
                 android:id="@+id/masjidPeserta"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Al-Muharram"
+                android:text="Masjidnya"
+                android:textSize="15sp"/>
+            <TextView
+                android:id="@+id/statusPeserta"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Statusnya"
                 android:textSize="15sp"/>
         </LinearLayout>
     </LinearLayout>
