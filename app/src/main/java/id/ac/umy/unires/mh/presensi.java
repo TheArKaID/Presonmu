@@ -11,15 +11,20 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static id.ac.umy.unires.mh.MainActivity.email;
 import static id.ac.umy.unires.mh.Utils.ServerAPI.*;
@@ -51,7 +56,29 @@ public class presensi extends Fragment {
     }
 
     private void doAbsen(String email) {
+        StringRequest cekAbsen = new StringRequest(Request.Method.POST, CEKABSEN_URL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
 
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+
+
+
+                return params;
+            }
+        };
+        Volley.newRequestQueue(getContext()).add(cekAbsen);
     }
 
     private void loadData(){
