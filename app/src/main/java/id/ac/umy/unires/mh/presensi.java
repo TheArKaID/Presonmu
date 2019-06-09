@@ -120,7 +120,30 @@ public class presensi extends Fragment {
     }
 
     private void doAbsen() {
+        StringRequest absen = new StringRequest(Request.Method.POST, ABSEN_URL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
 
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+
+                params.put("email", email);
+                params.put("tanggal", haridantanggalnya);
+                params.put("shift", shift);
+
+                return params;
+            }
+        };
     }
 
     private void didAbsen() {
