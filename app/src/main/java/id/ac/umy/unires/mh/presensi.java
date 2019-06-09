@@ -1,6 +1,5 @@
 package id.ac.umy.unires.mh;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -40,7 +39,18 @@ public class presensi extends Fragment {
         absen = v.findViewById(R.id.Absen);
 
         loadData();
+
+        absen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                doAbsen();
+            }
+        });
         return v;
+    }
+
+    private void doAbsen() {
+
     }
 
     private void loadData(){
