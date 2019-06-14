@@ -8,4 +8,5 @@ public class ServerAPI {
     public static final String ABSEN_URL = BASE_URL+"absen.php";
     public static final String RIWAYAT_URL = BASE_URL+"riyawat.php";
     public static final String CEKABSEN_URL = BASE_URL+"cekabsen.php";
+    public static final String MYHOME_URL = BASE_URL+"home.php";
 }
