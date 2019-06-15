@@ -113,12 +113,14 @@ public class Welcome extends AppCompatActivity {
 
                 Intent loginIntent = new Intent(getApplicationContext(), Login.class);
                 loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                checkBar.dismiss();
                 startActivity(loginIntent);
             }
 
             prefEdit.apply();
         } else {
             Toast.makeText(Welcome.this, "Check your internet connection", Toast.LENGTH_LONG).show();
+            checkBar.dismiss();
         }
     }
 

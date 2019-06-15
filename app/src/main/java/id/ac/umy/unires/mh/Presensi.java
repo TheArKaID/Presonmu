@@ -1,6 +1,7 @@
 package id.ac.umy.unires.mh;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -28,7 +29,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-import static id.ac.umy.unires.mh.MainActivity.email;
+import static id.ac.umy.unires.mh.MainActivity.*;
 import static id.ac.umy.unires.mh.Utils.ServerAPI.*;
 
 public class Presensi extends Fragment {
@@ -37,6 +38,8 @@ public class Presensi extends Fragment {
     Button absen;
 
     String haridantanggalnya, shift;
+
+    ProgressDialog checkBar;
 
     @Nullable
     @Override
@@ -53,6 +56,7 @@ public class Presensi extends Fragment {
         absen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                LoadingBarCheck();
                 doAbsen();
             }
         });
@@ -60,6 +64,7 @@ public class Presensi extends Fragment {
     }
 
     private void loadData(){
+        LoadingBarCheck();
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, DATETIME_URL, null,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -73,11 +78,11 @@ public class Presensi extends Fragment {
                             if(!response.getBoolean("absenable")){
                                 absen.setClickable(response.getBoolean("absenable"));
                                 absen.setBackgroundColor(getResources().getColor(R.color.colorFalse));
-                            } else{
+                            }else{
                                 cekAbsen(email);
                             }
-
                             Log.d("Log, ", "Response => "+response.toString());
+                            checkBar.dismiss();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -131,21 +136,25 @@ public class Presensi extends Fragment {
                     @Override
                     public void onResponse(String response) {
                         if(response.equals("Sukses")){
+                            checkBar.dismiss();
                             notif.setTitle("Sukses")
+                                    .setCancelable(false)
                                     .setMessage("Anda Telah Absen")
                                     .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
-                                            //TODO: Re call or Re Draw or anything to refresh the page
+                                            loadData();
                                         }
                                     }).show();
                         } else{
+                            checkBar.dismiss();
                             notif.setTitle("Gagal")
                                     .setMessage("Coba Lagi")
+                                    .setCancelable(false)
                                     .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
-                                            //TODO: Re call or Re Draw or anything to refresh the page
+                                            loadData();
                                         }
                                     }).show();
                         }
@@ -154,6 +163,7 @@ public class Presensi extends Fragment {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        checkBar.dismiss();
                         Log.d("onErrorResponse", error.getMessage());
                     }
                 }){
@@ -175,6 +185,15 @@ public class Presensi extends Fragment {
         absen.setClickable(false);
         absen.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
         absen.setText("✓");
+        checkBar.dismiss();
     }
 
+    private void LoadingBarCheck() {
+        checkBar = new ProgressDialog(getActivity());
+        checkBar.setTitle("Please Wait...");
+        checkBar.setMessage("While We're Checking your Data");
+        checkBar.setCanceledOnTouchOutside(false);
+        checkBar.setCancelable(false);
+        checkBar.show();
+    }
 }
