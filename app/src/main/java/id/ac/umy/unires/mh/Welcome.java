@@ -57,8 +57,8 @@ public class Welcome extends AppCompatActivity {
         checkingBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                LoadingBarCheck();
                 CheckLocationPermission();
-
             }
         });
     }
@@ -72,11 +72,16 @@ public class Welcome extends AppCompatActivity {
                         public void onClick(DialogInterface dialog, int which) {
                             ActivityCompat.requestPermissions(Welcome.this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, MY_PERMISSIONS_REQUEST_LOCATION);
                         }
+                    }).setOnCancelListener(new DialogInterface.OnCancelListener() {
+                        @Override
+                        public void onCancel(DialogInterface dialog) {
+                            Toast.makeText(Welcome.this,"Maaf, anda harus memberi aplikasi ini izin. Dismiss", Toast.LENGTH_LONG).show();
+                            checkBar.dismiss();
+                        }
                     }).show();
         } else {
             intenter();
         }
-
     }
 
     @Override
@@ -86,20 +91,14 @@ public class Welcome extends AppCompatActivity {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 intenter();
                 return;
+            } else{
+                Toast.makeText(this,"Maaf, anda harus memberi aplikasi ini izin", Toast.LENGTH_LONG).show();
             }
         }
-    }
-
-    private void LoadingBarCheck() {
-        checkBar.setTitle("Please Wait...");
-        checkBar.setMessage("While We're Checking your Data");
-        checkBar.setCanceledOnTouchOutside(false);
-        checkBar.setCancelable(false);
-        checkBar.show();
+        checkBar.dismiss();
     }
 
     private void intenter() {
-        LoadingBarCheck();
         if (isInternetWorking()) {
             SharedPreferences pref = getApplicationContext().getSharedPreferences("id.ac.umy.unires.mh.DATA_DIRI", MODE_PRIVATE);
             SharedPreferences.Editor prefEdit = pref.edit();
@@ -118,16 +117,13 @@ public class Welcome extends AppCompatActivity {
             }
 
             prefEdit.apply();
-            checkBar.dismiss();
         } else {
-            checkBar.dismiss();
             Toast.makeText(Welcome.this, "Check your internet connection", Toast.LENGTH_LONG).show();
         }
     }
 
     private void LoginandIntent(final String email, final String password) {
         if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
-            checkBar.dismiss();
             Toast.makeText(this, "Harap Masukkan email dan password anda", Toast.LENGTH_LONG).show();
         } else {
             if (isInternetWorking()) {
@@ -143,7 +139,6 @@ public class Welcome extends AppCompatActivity {
                                     prefEdit.putString("pass", password);
 
                                     prefEdit.apply();
-                                    checkBar.dismiss();
                                     Bundle bundle = new Bundle();
                                     bundle.putString("email", email);
 //
@@ -174,7 +169,6 @@ public class Welcome extends AppCompatActivity {
                 Volley.newRequestQueue(this).add(request);
 
             } else {
-                checkBar.dismiss();
                 Toast.makeText(Welcome.this, "Check your internet connection", Toast.LENGTH_LONG).show();
             }
         }
@@ -193,5 +187,13 @@ public class Welcome extends AppCompatActivity {
             e.printStackTrace();
         }
         return success;
+    }
+
+    private void LoadingBarCheck() {
+        checkBar.setTitle("Please Wait...");
+        checkBar.setMessage("While We're Checking your Data");
+        checkBar.setCanceledOnTouchOutside(false);
+        checkBar.setCancelable(false);
+        checkBar.show();
     }
 }
