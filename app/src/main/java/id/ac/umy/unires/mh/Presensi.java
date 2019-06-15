@@ -31,7 +31,7 @@ import java.util.Map;
 import static id.ac.umy.unires.mh.MainActivity.email;
 import static id.ac.umy.unires.mh.Utils.ServerAPI.*;
 
-public class presensi extends Fragment {
+public class Presensi extends Fragment {
 
     TextView haridantanggal, shiftke;
     Button absen;

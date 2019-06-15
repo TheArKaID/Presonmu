@@ -7,14 +7,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.os.Message;
 import android.os.StrictMode;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -33,7 +31,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static id.ac.umy.unires.mh.Utils.ServerAPI.LOGIN_URL;
-import static id.ac.umy.unires.mh.login.md5;
 
 public class Welcome extends AppCompatActivity {
 
@@ -110,12 +107,12 @@ public class Welcome extends AppCompatActivity {
                 email = pref.getString("email", null);
                 password = pref.getString("pass", null);
                 LoginandIntent(email, password);
-                // TODO : Intent ke halaman awal melalui login dengan data yang disimpan
+                // TODO : Intent ke halaman awal melalui Login dengan data yang disimpan
             } else {
                 Bundle bundle = new Bundle();
                 bundle.putString("email", email);
 
-                Intent loginIntent = new Intent(getApplicationContext(), login.class);
+                Intent loginIntent = new Intent(getApplicationContext(), Login.class);
                 loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(loginIntent);
             }

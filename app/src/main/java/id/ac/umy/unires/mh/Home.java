@@ -22,7 +22,7 @@ import java.util.Map;
 import static id.ac.umy.unires.mh.MainActivity.email;
 import static id.ac.umy.unires.mh.Utils.ServerAPI.MYHOME_URL;
 
-public class home extends Fragment {
+public class Home extends Fragment {
 
     TextView nama, masjid, status;
     ImageView foto;

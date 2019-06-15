@@ -10,8 +10,6 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-import java.util.Objects;
-
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout mDrawerlayout;
@@ -40,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         if(savedInstanceState == null){
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentMain, new home()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentMain, new Home()).commit();
             navigationView.setCheckedItem(R.id.homeMenu);
         }
     }
@@ -49,19 +47,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch (menuItem.getItemId()){
             case R.id.homeMenu:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentMain, new home()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentMain, new Home()).commit();
                 break;
             case R.id.presensiMenu:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentMain, new presensi()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentMain, new Presensi()).commit();
                 break;
             case R.id.riwayatMenu:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentMain, new riwayat()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentMain, new Riwayat()).commit();
                 break;
             case  R.id.profileMenu:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentMain, new profile()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentMain, new Profile()).commit();
                 break;
             case R.id.aboutMenu:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentMain, new about()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentMain, new About()).commit();
                 break;
             case  R.id.exitMenu:
                 finishAndRemoveTask();

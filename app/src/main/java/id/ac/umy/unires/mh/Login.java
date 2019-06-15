@@ -28,7 +28,7 @@ import java.util.Map;
 
 import static id.ac.umy.unires.mh.Utils.ServerAPI.LOGIN_URL;
 
-public class login extends AppCompatActivity {
+public class Login extends AppCompatActivity {
 
     EditText emailET;
     EditText passwordET;
@@ -87,13 +87,13 @@ public class login extends AppCompatActivity {
                                 Bundle bundle = new Bundle();
                                 bundle.putString("email", email);
 //
-                                Intent mainIntent = new Intent(login.this, MainActivity.class);
+                                Intent mainIntent = new Intent(Login.this, MainActivity.class);
                                 mainIntent.putExtras(bundle);
                                 mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                 checkBar.dismiss();
                                 startActivity(mainIntent);
                             } else{
-                                Toast.makeText(login.this, response, Toast.LENGTH_LONG).show();
+                                Toast.makeText(Login.this, response, Toast.LENGTH_LONG).show();
                                 checkBar.dismiss();
                             }
                         }
@@ -101,7 +101,7 @@ public class login extends AppCompatActivity {
                     new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
-                            Toast.makeText(login.this, "Error Response =>"+error.toString(), Toast.LENGTH_LONG).show();
+                            Toast.makeText(Login.this, "Error Response =>"+error.toString(), Toast.LENGTH_LONG).show();
                         }
                     }){
                     @Override
@@ -115,7 +115,7 @@ public class login extends AppCompatActivity {
                 Volley.newRequestQueue(this).add(request);
 
             } else {
-                Toast.makeText(login.this, "Check your internet connection", Toast.LENGTH_LONG).show();
+                Toast.makeText(Login.this, "Check your internet connection", Toast.LENGTH_LONG).show();
                 checkBar.dismiss();
             }
         }
