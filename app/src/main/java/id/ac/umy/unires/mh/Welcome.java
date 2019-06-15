@@ -167,16 +167,9 @@ public class Welcome extends AppCompatActivity {
                         Map<String,String> params = new HashMap<>();
                         params.put("email", email);
                         params.put("password", password);
+                        params.put("logged", "true");
                         return params;
                     }
-
-//                    @Override
-//                    public Map<String, String> getHeaders() throws AuthFailureError {
-//                        Map<String,String> params = new HashMap<>();
-//                        params.put("User-Agent","Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36 Edge/12.10240 ");
-//                        params.put("Cookie", "__test=bdcdab978ace2da77de09294366a1ddd; expires=Thu, 31-Dec-37 23:55:55 GMT; path=/");
-//                        return params;
-//                    }
                 };
                 Volley.newRequestQueue(this).add(request);
 
