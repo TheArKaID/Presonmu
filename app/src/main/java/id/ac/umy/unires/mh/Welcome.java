@@ -145,9 +145,11 @@ public class Welcome extends AppCompatActivity {
                                     Intent mainIntent = new Intent(Welcome.this, MainActivity.class);
                                     mainIntent.putExtras(bundle);
                                     mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    checkBar.dismiss();
                                     startActivity(mainIntent);
                                 } else{
                                     Toast.makeText(Welcome.this, response, Toast.LENGTH_LONG).show();
+                                    checkBar.dismiss();
                                 }
                             }
                         },
@@ -155,6 +157,7 @@ public class Welcome extends AppCompatActivity {
                             @Override
                             public void onErrorResponse(VolleyError error) {
                                 Toast.makeText(Welcome.this, "Error Response => "+error.toString(), Toast.LENGTH_LONG).show();
+                                checkBar.dismiss();
                             }
                         }){
                     @Override
@@ -170,6 +173,7 @@ public class Welcome extends AppCompatActivity {
 
             } else {
                 Toast.makeText(Welcome.this, "Check your internet connection", Toast.LENGTH_LONG).show();
+                checkBar.dismiss();
             }
         }
 
