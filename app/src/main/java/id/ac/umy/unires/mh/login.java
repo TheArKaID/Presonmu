@@ -4,11 +4,9 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.StrictMode;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,9 +23,7 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import static id.ac.umy.unires.mh.Utils.ServerAPI.LOGIN_URL;
@@ -41,9 +37,98 @@ public class login extends AppCompatActivity {
     String email;
     String password;
 
-//    Map<String, Object> dataUser;
 
     ProgressDialog checkBar;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login);
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
+        emailET = findViewById(R.id.EmailET);
+        passwordET = findViewById(R.id.PassET);
+        login = findViewById(R.id.LoginBtn);
+
+        login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LoadingBarCheck();
+                email = emailET.getText().toString();
+                password = passwordET.getText().toString();
+
+                Login(email, password);
+            }
+        });
+    }
+
+    public void Login(final String email, String password) {
+        final String pass =  md5(password);
+        if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
+            Toast.makeText(this, "Harap Masukkan email dan password anda", Toast.LENGTH_LONG).show();
+            checkBar.dismiss();
+        } else {
+            if (isInternetWorking()) {
+                StringRequest request = new StringRequest(Request.Method.POST, LOGIN_URL,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            if(response.contains("Data Matched")){
+                                SharedPreferences pref = getApplicationContext().getSharedPreferences("id.ac.umy.unires.mh.DATA_DIRI", MODE_PRIVATE);
+                                SharedPreferences.Editor prefEdit = pref.edit();
+
+                                prefEdit.putString("email", email);
+                                prefEdit.putString("pass", pass);
+
+                                prefEdit.apply();
+
+                                Bundle bundle = new Bundle();
+                                bundle.putString("email", email);
+//
+                                Intent mainIntent = new Intent(login.this, MainActivity.class);
+                                mainIntent.putExtras(bundle);
+                                mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                checkBar.dismiss();
+                                startActivity(mainIntent);
+                            } else{
+                                Toast.makeText(login.this, response, Toast.LENGTH_LONG).show();
+                                checkBar.dismiss();
+                            }
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Toast.makeText(login.this, "Error Response =>"+error.toString(), Toast.LENGTH_LONG).show();
+                        }
+                    }){
+                    @Override
+                    protected Map<String, String> getParams() throws AuthFailureError {
+                        Map<String,String> params = new HashMap<>();
+                        params.put("email", email);
+                        params.put("password", pass);
+                        return params;
+                    }
+                };
+                Volley.newRequestQueue(this).add(request);
+
+            } else {
+                Toast.makeText(login.this, "Check your internet connection", Toast.LENGTH_LONG).show();
+                checkBar.dismiss();
+            }
+        }
+    }
+
+    private void LoadingBarCheck() {
+        checkBar = new ProgressDialog(this);
+        checkBar.setTitle("Please Wait...");
+        checkBar.setMessage("While We're Checking your Data");
+        checkBar.setCanceledOnTouchOutside(false);
+        checkBar.setCancelable(false);
+        checkBar.show();
+    }
 
     public static final String md5(final String toEncrypt) {
         String result = "";
@@ -61,105 +146,6 @@ public class login extends AppCompatActivity {
             return result; // Impossibru!
         }
     }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
-
-        emailET = findViewById(R.id.EmailET);
-        passwordET = findViewById(R.id.PassET);
-        login = findViewById(R.id.LoginBtn);
-//        dataUser = new HashMap();
-        checkBar = new ProgressDialog(login.this);
-
-        login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                email = emailET.getText().toString();
-                password = passwordET.getText().toString();
-
-                Login(email, password);
-            }
-        });
-    }
-
-    public void Login(final String email, String password) {
-        //LoadingBarCheck();
-        final String pass =  md5(password);
-        if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
-            checkBar.dismiss();
-            Toast.makeText(this, "Harap Masukkan email dan password anda", Toast.LENGTH_LONG).show();
-        } else {
-            if (isInternetWorking()) {
-                StringRequest request = new StringRequest(Request.Method.POST, LOGIN_URL,
-                    new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
-                            if(response.contains("Data Matched")){
-                                SharedPreferences pref = getApplicationContext().getSharedPreferences("id.ac.umy.unires.mh.DATA_DIRI", MODE_PRIVATE);
-                                SharedPreferences.Editor prefEdit = pref.edit();
-
-                                prefEdit.putString("email", email);
-                                prefEdit.putString("pass", pass);
-
-                                prefEdit.apply();
-                                checkBar.dismiss();
-                                Bundle bundle = new Bundle();
-                                bundle.putString("email", email);
-//
-                                Intent mainIntent = new Intent(login.this, MainActivity.class);
-                                mainIntent.putExtras(bundle);
-                                mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                startActivity(mainIntent);
-                            } else{
-                                Toast.makeText(login.this, response, Toast.LENGTH_LONG).show();
-                            }
-                        }
-                    },
-                    new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            Toast.makeText(login.this, "Error Response =>"+error.toString(), Toast.LENGTH_LONG).show();
-                        }
-                    }){
-                    @Override
-                    protected Map<String, String> getParams() throws AuthFailureError {
-                        Map<String,String> params = new HashMap<>();
-                        params.put("email", email);
-                        params.put("password", pass);
-                        return params;
-                    }
-//                    @Override
-//                    public Map<String, String> getHeaders() throws AuthFailureError {
-//                        Map<String,String> params = new HashMap<>();
-//                        params.put("User-Agent","Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36 Edge/12.10240 ");
-//                        params.put("Cookie", "__test=bdcdab978ace2da77de09294366a1ddd; expires=Thu, 31-Dec-37 23:55:55 GMT; path=/");
-//                        return params;
-//                    }
-                };
-                Volley.newRequestQueue(this).add(request);
-
-            } else {
-                checkBar.dismiss();
-                Toast.makeText(login.this, "Check your internet connection", Toast.LENGTH_LONG).show();
-            }
-        }
-    }
-
-    private void LoadingBarCheck() {
-        checkBar.setTitle("Please Wait...");
-        checkBar.setMessage("While We're Checking your Data");
-        checkBar.setCanceledOnTouchOutside(false);
-        checkBar.setCancelable(false);
-        checkBar.show();
-    }
-
-
 
     public boolean isInternetWorking() {
         boolean success = false;
