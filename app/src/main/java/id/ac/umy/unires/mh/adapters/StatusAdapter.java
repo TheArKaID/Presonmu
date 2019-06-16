@@ -31,7 +31,9 @@ public class StatusAdapter extends RecyclerView.Adapter<StatusAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull StatusAdapter.ViewHolder viewHolder, int i) {
-
+        viewHolder.nama.setText(getStatusModels().get(i).getNama());
+        viewHolder.masjid.setText(getStatusModels().get(i).getMasjid());
+        viewHolder.status.setText(getStatusModels().get(i).getStatus());
     }
 
     @Override
