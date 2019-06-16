@@ -19,10 +19,15 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import id.ac.umy.unires.mh.model.StatusModel;
 
 import static id.ac.umy.unires.mh.MainActivity.email;
 import static id.ac.umy.unires.mh.Utils.ServerAPI.*;
@@ -33,6 +38,8 @@ public class Home extends Fragment {
     ImageView foto;
 
     ProgressDialog checkBar;
+
+    ArrayList<StatusModel> modelList = new ArrayList<>();
 
     @Nullable
     @Override
@@ -56,13 +63,27 @@ public class Home extends Fragment {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        try {
+                            JSONArray array = new JSONArray(response);
+                            for (int pos = 0; pos<array.length(); pos++){
+                                String object = array.getString(pos);
+                                JSONObject data = new JSONObject(object);
 
+                                StatusModel status = new StatusModel();
+                                status.setNama(data.getString("nama"));
+                                status.setMasjid(data.getString("masjid"));
+                                status.setStatus(data.getString("status"));
+                                modelList.add(status);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
+                        Log.d("LoadStatusDataError", error.getMessage());
                     }
                 }){
                 @Override
