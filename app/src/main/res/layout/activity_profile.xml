@@ -51,7 +51,7 @@
             android:textColor="@color/colorPrimary"
             android:textSize="20sp"/>
         <TextView
-            android:id="@+id/profileMasjidMH"
+            android:id="@+id/profileMasjid"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
