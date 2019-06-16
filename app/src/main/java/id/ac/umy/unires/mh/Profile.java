@@ -9,21 +9,28 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import static id.ac.umy.unires.mh.MainActivity.email;
+
 public class Profile extends Fragment {
 
-    TextView nama, jkelamin, email, masjid, status;
+    TextView tvnama, tvjkelamin, tvemail, tvmasjid, tvstatus;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.activity_profile, container, false);
 
-        nama = v.findViewById(R.id.profileNama);
-        jkelamin = v.findViewById(R.id.profileJenisKelamin);
-        email = v.findViewById(R.id.profileEmail);
-        masjid = v.findViewById(R.id.profileMasjid);
-        status = v.findViewById(R.id.profileStatus);
+        tvnama = v.findViewById(R.id.profileNama);
+        tvjkelamin = v.findViewById(R.id.profileJenisKelamin);
+        tvemail = v.findViewById(R.id.profileEmail);
+        tvmasjid = v.findViewById(R.id.profileMasjid);
+        tvstatus = v.findViewById(R.id.profileStatus);
 
+        loadMyProfile(email);
         return v;
+    }
+
+    private void loadMyProfile(final String email) {
+
     }
 }
