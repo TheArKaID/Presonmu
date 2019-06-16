@@ -23,7 +23,7 @@ import static id.ac.umy.unires.mh.Utils.ServerAPI.ABOUT_URL;
 
 public class About extends Fragment {
 
-    TextView about;
+    TextView about, version;
 
     @Nullable
     @Override
@@ -31,6 +31,7 @@ public class About extends Fragment {
         View v = inflater.inflate(R.layout.activity_about, container, false);
 
         about = v.findViewById(R.id.aboutText);
+        version = v.findViewById(R.id.versionText);
 
         loadAbout();
 
@@ -44,7 +45,7 @@ public class About extends Fragment {
                     public void onResponse(JSONObject response) {
                         try {
                             about.setText(response.getString("informasi"));
-
+                            version.setText(String.format("Version %s", response.getString("version")));
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
