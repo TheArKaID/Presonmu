@@ -3,11 +3,13 @@ package id.ac.umy.unires.mh.adapters;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
+import id.ac.umy.unires.mh.R;
 import id.ac.umy.unires.mh.model.StatusModel;
 
 public class StatusAdapter extends RecyclerView.Adapter<StatusAdapter.ViewHolder> {
@@ -22,7 +24,8 @@ public class StatusAdapter extends RecyclerView.Adapter<StatusAdapter.ViewHolder
     @NonNull
     @Override
     public StatusAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        return null;
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.status_row, viewGroup, false);
+        return new ViewHolder(view);
     }
 
     @Override
