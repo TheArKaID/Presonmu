@@ -38,10 +38,10 @@ public class Home extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.activity_home, container, false);
 
-        nama = v.findViewById(R.id.namaPeserta);
-        masjid = v.findViewById(R.id.masjidPeserta);
-        status = v.findViewById(R.id.statusPeserta);
-        foto = v.findViewById(R.id.profilePicture);
+        nama = v.findViewById(R.id.myNamaPeserta);
+        masjid = v.findViewById(R.id.myMasjidPeserta);
+        status = v.findViewById(R.id.myStatusPeserta);
+        foto = v.findViewById(R.id.myProfilePicture);
 
         LoadingBarCheck();
         loadMyData(email);
