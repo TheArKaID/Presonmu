@@ -2,4 +2,6 @@
     <string name="app_name">Presonmu</string>
     <string name="open">Open</string>
     <string name="close">Close</string>
+    <string name="btn_edit_profile">Edit Profile</string>
+    <string name="desc_foto_profile">Foto Profile</string>
 </resources>
