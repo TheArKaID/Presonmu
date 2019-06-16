@@ -1,5 +1,6 @@
 package id.ac.umy.unires.mh;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -25,6 +26,8 @@ public class About extends Fragment {
 
     TextView about, version;
 
+    ProgressDialog checkBar;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -33,6 +36,7 @@ public class About extends Fragment {
         about = v.findViewById(R.id.aboutText);
         version = v.findViewById(R.id.versionText);
 
+        LoadingBarCheck();
         loadAbout();
 
         return v;
@@ -49,15 +53,26 @@ public class About extends Fragment {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+                        checkBar.dismiss();
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.d("AboutErrorRequest =>", error.getMessage());
+                        checkBar.dismiss();
                     }
                 });
 
         Volley.newRequestQueue(getContext()).add(request);
+    }
+
+    private void LoadingBarCheck() {
+        checkBar = new ProgressDialog(getActivity());
+        checkBar.setTitle("Please Wait...");
+        checkBar.setMessage("While We're Checking your Data");
+        checkBar.setCanceledOnTouchOutside(false);
+        checkBar.setCancelable(false);
+        checkBar.show();
     }
 }
