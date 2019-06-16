@@ -9,7 +9,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import static id.ac.umy.unires.mh.MainActivity.email;
+import static id.ac.umy.unires.mh.Utils.ServerAPI.CEKPROFILE_URL;
 
 public class Profile extends Fragment {
 
@@ -31,6 +42,28 @@ public class Profile extends Fragment {
     }
 
     private void loadMyProfile(final String email) {
+        StringRequest request = new StringRequest(Request.Method.POST, CEKPROFILE_URL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
 
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                }){
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+                    HashMap<String, String> params = new HashMap<>();
+
+                    params.put("email", email);
+
+                    return params;
+                }
+            };
+        Volley.newRequestQueue(getContext()).add(request);
     }
 }
