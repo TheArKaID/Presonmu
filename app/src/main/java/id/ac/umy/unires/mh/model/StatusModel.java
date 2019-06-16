@@ -1,13 +1,13 @@
 package id.ac.umy.unires.mh.model;
 
-public class Status {
+public class StatusModel {
     String nama, masjid, status;
 
-    public Status(){
+    public StatusModel(){
 
     }
 
-    public Status(String nama, String masjid, String status) {
+    public StatusModel(String nama, String masjid, String status) {
         this.nama = nama;
         this.masjid = masjid;
         this.status = status;
