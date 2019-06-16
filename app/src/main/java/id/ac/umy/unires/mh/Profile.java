@@ -1,5 +1,6 @@
 package id.ac.umy.unires.mh;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -30,6 +31,8 @@ public class Profile extends Fragment {
 
     TextView tvnama, tvjkelamin, tvemail, tvmasjid, tvstatus;
 
+    ProgressDialog checkBar;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -41,6 +44,7 @@ public class Profile extends Fragment {
         tvmasjid = v.findViewById(R.id.profileMasjid);
         tvstatus = v.findViewById(R.id.profileStatus);
 
+        LoadingBarCheck();
         loadMyProfile(email);
         return v;
     }
@@ -61,12 +65,14 @@ public class Profile extends Fragment {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+                        checkBar.dismiss();
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.d("CekProfileErrorResponse", error.getMessage());
+                        checkBar.dismiss();
                     }
                 }){
                 @Override
@@ -79,5 +85,14 @@ public class Profile extends Fragment {
                 }
             };
         Volley.newRequestQueue(getContext()).add(request);
+    }
+
+    private void LoadingBarCheck() {
+        checkBar = new ProgressDialog(getActivity());
+        checkBar.setTitle("Please Wait...");
+        checkBar.setMessage("While We're Checking your Data");
+        checkBar.setCanceledOnTouchOutside(false);
+        checkBar.setCancelable(false);
+        checkBar.show();
     }
 }
