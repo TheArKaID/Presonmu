@@ -5,6 +5,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +29,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import id.ac.umy.unires.mh.adapters.StatusAdapter;
 import id.ac.umy.unires.mh.model.StatusModel;
 
 import static id.ac.umy.unires.mh.MainActivity.email;
@@ -38,6 +41,7 @@ public class Home extends Fragment {
     ImageView foto;
 
     ProgressDialog checkBar;
+    RecyclerView recyclerView;
 
     ArrayList<StatusModel> modelList = new ArrayList<>();
 
@@ -50,6 +54,9 @@ public class Home extends Fragment {
         masjid = v.findViewById(R.id.myMasjidPeserta);
         status = v.findViewById(R.id.myStatusPeserta);
         foto = v.findViewById(R.id.myProfilePicture);
+
+        recyclerView = v.findViewById(R.id.rv_status);
+        recyclerView.setHasFixedSize(true);
 
         LoadingBarCheck();
         loadStatusData(email);
@@ -78,6 +85,7 @@ public class Home extends Fragment {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+                        loadStatus();
                     }
                 },
                 new Response.ErrorListener() {
@@ -94,6 +102,13 @@ public class Home extends Fragment {
                 }
             };
         Volley.newRequestQueue(getContext()).add(request);
+    }
+
+    private void loadStatus() {
+        recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
+        StatusAdapter statusAdapter = new StatusAdapter(getContext());
+        statusAdapter.setStatusModels(modelList);
+        recyclerView.setAdapter(statusAdapter);
     }
 
     private void loadMyData(final String email) {
