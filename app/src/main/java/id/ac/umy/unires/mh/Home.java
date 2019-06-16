@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +16,7 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONObject;
@@ -49,31 +50,37 @@ public class Home extends Fragment {
         return v;
     }
 
-    private void loadMyData(String email) {
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, MYHOME_URL, null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
+    private void loadMyData(final String email) {
 
-                        checkBar.dismiss();
+        StringRequest request = new StringRequest(Request.Method.POST, MYHOME_URL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                       try {
+                           JSONObject jsonObject= new JSONObject(response);
+                           nama.setText(jsonObject.getString("nama"));
+                           masjid.setText(jsonObject.getString("masjid"));
+                           status.setText(jsonObject.getString("status"));
+                       }catch (Exception e){
+                           Log.d("onErrorRequest=> ", e.toString());
+                       }
+                       checkBar.dismiss();
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
+                        Log.d("loadMyDataError =>", error.getMessage());
                         checkBar.dismiss();
                     }
                 }){
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = new HashMap<>();
-
-
-
-                return params;
-            }
-        };
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+                    Map<String,String> params = new HashMap<>();
+                    params.put("email", email);
+                    return params;
+                }
+            };
 
         Volley.newRequestQueue(getContext()).add(request);
     }
