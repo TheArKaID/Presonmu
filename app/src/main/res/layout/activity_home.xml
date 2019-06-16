@@ -28,19 +28,19 @@
                 android:id="@+id/myNamaPeserta"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Namanya"
+                tools:text="Namanya"
                 android:textSize="15sp"/>
             <TextView
                 android:id="@+id/myMasjidPeserta"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Masjidnya"
+                tools:text="Masjidnya"
                 android:textSize="15sp"/>
             <TextView
                 android:id="@+id/myStatusPeserta"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Statusnya"
+                tools:text="Statusnya"
                 android:textSize="15sp"/>
         </LinearLayout>
     </LinearLayout>

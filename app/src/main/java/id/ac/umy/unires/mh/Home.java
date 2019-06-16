@@ -25,7 +25,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static id.ac.umy.unires.mh.MainActivity.email;
-import static id.ac.umy.unires.mh.Utils.ServerAPI.MYHOME_URL;
+import static id.ac.umy.unires.mh.Utils.ServerAPI.*;
 
 public class Home extends Fragment {
 
@@ -45,13 +45,37 @@ public class Home extends Fragment {
         foto = v.findViewById(R.id.myProfilePicture);
 
         LoadingBarCheck();
+        loadStatusData(email);
         loadMyData(email);
 
         return v;
     }
 
-    private void loadMyData(final String email) {
+    private void loadStatusData(final String email) {
+        StringRequest request = new StringRequest(Request.Method.POST, STATUSHOME_URL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
 
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                }){
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+                    HashMap<String, String> params = new HashMap<>();
+                    params.put("email", email);
+                    return params;
+                }
+            };
+        Volley.newRequestQueue(getContext()).add(request);
+    }
+
+    private void loadMyData(final String email) {
         StringRequest request = new StringRequest(Request.Method.POST, MYHOME_URL,
                 new Response.Listener<String>() {
                     @Override
