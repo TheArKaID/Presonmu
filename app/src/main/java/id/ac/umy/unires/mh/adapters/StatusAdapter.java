@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -46,9 +47,13 @@ public class StatusAdapter extends RecyclerView.Adapter<StatusAdapter.ViewHolder
         this.statusModels = statusModels;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
-        public ViewHolder(@NonNull View itemView) {
+    class ViewHolder extends RecyclerView.ViewHolder{
+        TextView nama, masjid, status;
+        ViewHolder(@NonNull View itemView) {
             super(itemView);
+            nama = itemView.findViewById(R.id.namaPeserta);
+            masjid = itemView.findViewById(R.id.masjidPeserta);
+            status = itemView.findViewById(R.id.statusPeserta);
         }
     }
 }
