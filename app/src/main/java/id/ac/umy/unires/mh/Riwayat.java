@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,10 @@ import com.android.volley.toolbox.Volley;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.data.BarEntry;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -30,7 +35,7 @@ public class Riwayat extends Fragment {
 
     ArrayList<BarEntry> shift1;
     ArrayList<BarEntry> shift2;
-
+    String[] days;
 
     @Nullable
     @Override
@@ -52,13 +57,29 @@ public class Riwayat extends Fragment {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        try {
+                            JSONArray array = new JSONArray(response);
+                            days = new String[array.length()];
 
+                            for (int pos = 0; pos<array.length(); pos++){
+                                String object = array.getString(pos);
+                                JSONObject data = new JSONObject(object);
+                                int isPresent1 = data.getInt("shift1");
+                                int isPresent2 = data.getInt("shift2");
+
+                                days[pos] = data.getString("hari");
+                                shift1.add(new BarEntry(pos+1, isPresent1));
+                                shift2.add(new BarEntry(pos+1, isPresent2));
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
+                        Log.d("ErrorCekRiwayat => ", error.getMessage());
                     }
                 }){
                 @Override
