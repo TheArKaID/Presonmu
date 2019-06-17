@@ -120,5 +120,14 @@ public class Riwayat extends Fragment {
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setGranularity(1);
         xAxis.setGranularityEnabled(true);
+
+        YAxis yAxisLeft = barChart.getAxisLeft();
+        String[] x = new String[]{"Tidak", "Hadir"};
+        yAxisLeft.setValueFormatter(new IndexAxisValueFormatter(x));
+        yAxisLeft.setLabelCount(2, true);
+
+        YAxis yAxisRight = barChart.getAxisRight();
+        yAxisRight.setDrawLabels(false);
+
     }
 }
