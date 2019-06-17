@@ -129,5 +129,20 @@ public class Riwayat extends Fragment {
         YAxis yAxisRight = barChart.getAxisRight();
         yAxisRight.setDrawLabels(false);
 
+        barChart.setDragEnabled(true);
+        barChart.setVisibleXRangeMaximum(3);
+        barChart.getDescription().setText("Data Kehadiran");
+        barChart.setScaleEnabled(false);
+
+        float barSpace = 0.05f;
+        float groupSpace = 0.6f;
+
+        data.setBarWidth(0.15f);
+
+        barChart.getXAxis().setAxisMinimum(0);
+        barChart.getXAxis().setAxisMaximum(0+barChart.getBarData().getGroupWidth(groupSpace, barSpace)*shift1.size());
+        barChart.getAxisLeft().setAxisMinimum(0);
+        barChart.groupBars(0, groupSpace, barSpace);
+        barChart.invalidate();
     }
 }
