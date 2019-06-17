@@ -20,6 +20,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
@@ -143,6 +144,9 @@ public class Riwayat extends Fragment {
         barChart.getXAxis().setAxisMaximum(0+barChart.getBarData().getGroupWidth(groupSpace, barSpace)*shift1.size());
         barChart.getAxisLeft().setAxisMinimum(0);
         barChart.groupBars(0, groupSpace, barSpace);
+
+        barChart.animateY(1000, Easing.EaseInOutCirc);
+
         barChart.invalidate();
     }
 }
