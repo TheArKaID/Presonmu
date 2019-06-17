@@ -1,5 +1,6 @@
 package id.ac.umy.unires.mh;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -19,6 +20,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 
 import org.json.JSONArray;
@@ -74,6 +77,7 @@ public class Riwayat extends Fragment {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+                        showMyBarChart(days, shift1, shift2);
                     }
                 },
                 new Response.ErrorListener() {
@@ -93,5 +97,15 @@ public class Riwayat extends Fragment {
         };
 
         Volley.newRequestQueue(getContext()).add(request);
+    }
+
+    private void showMyBarChart(String[] days, ArrayList<BarEntry> shift1, ArrayList<BarEntry> shift2) {
+        BarDataSet dataSet1 = new BarDataSet(shift1, "Shift 1");
+        dataSet1.setColor(Color.YELLOW);
+        BarDataSet dataSet2 = new BarDataSet(shift2, "Shift 2");
+        dataSet2.setColor(Color.BLUE);
+
+        BarData data = new BarData(dataSet1, dataSet2);
+        barChart.setData(data);
     }
 }
