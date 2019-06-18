@@ -1,5 +1,6 @@
 package id.ac.umy.unires.mh;
 
+import android.app.ProgressDialog;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -47,6 +48,8 @@ public class Riwayat extends Fragment {
     ArrayList<BarEntry> shift2;
     String[] days;
 
+    ProgressDialog checkBar;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -57,6 +60,7 @@ public class Riwayat extends Fragment {
         shift1 = new ArrayList<>();
         shift2 = new ArrayList<>();
 
+        LoadingBarCheck();
         loadData(email);
 
         return v;
@@ -107,6 +111,7 @@ public class Riwayat extends Fragment {
     }
 
     private void showMyBarChart(String[] days, ArrayList<BarEntry> shift1, ArrayList<BarEntry> shift2) {
+        checkBar.dismiss();
         BarDataSet dataSet1 = new BarDataSet(shift1, "Shift 1");
         dataSet1.setColor(Color.YELLOW);
         BarDataSet dataSet2 = new BarDataSet(shift2, "Shift 2");
@@ -148,5 +153,14 @@ public class Riwayat extends Fragment {
         barChart.animateY(1000, Easing.EaseInOutCirc);
 
         barChart.invalidate();
+    }
+
+    private void LoadingBarCheck() {
+        checkBar = new ProgressDialog(getActivity());
+        checkBar.setTitle("Please Wait...");
+        checkBar.setMessage("While We're Checking your Data");
+        checkBar.setCanceledOnTouchOutside(false);
+        checkBar.setCancelable(false);
+        checkBar.show();
     }
 }
