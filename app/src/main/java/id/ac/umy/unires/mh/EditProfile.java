@@ -41,6 +41,8 @@ public class EditProfile extends AppCompatActivity {
 
     Bitmap bitmap;
 
+    Boolean isChangePass;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,6 +78,10 @@ public class EditProfile extends AppCompatActivity {
                 newRePass = et_newRePass.getText().toString();
                 email = bundle.getString("email");
 
+                if (newPass.equals("") && newRePass.equals(""))
+                    isChangePass = false;
+                else
+                    isChangePass = true;
                 saveMyData();
             }
         });
@@ -130,6 +136,7 @@ public class EditProfile extends AppCompatActivity {
                     params.put("pass", password);
                     params.put("newpass", newPass);
                     params.put("newrepass", newRePass);
+                    params.put("ischangepass", isChangePass.toString());
                     params.put("foto", image2string(bitmap));
 
                     return params;
