@@ -1,6 +1,7 @@
 package id.ac.umy.unires.mh;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -9,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
@@ -30,6 +32,7 @@ import static id.ac.umy.unires.mh.Utils.ServerAPI.CEKPROFILE_URL;
 public class Profile extends Fragment {
 
     TextView tvnama, tvjkelamin, tvemail, tvmasjid, tvstatus;
+    Button btnedit;
 
     ProgressDialog checkBar;
 
@@ -43,9 +46,25 @@ public class Profile extends Fragment {
         tvemail = v.findViewById(R.id.profileEmail);
         tvmasjid = v.findViewById(R.id.profileMasjid);
         tvstatus = v.findViewById(R.id.profileStatus);
+        btnedit = v.findViewById(R.id.profileEditButton);
 
         LoadingBarCheck();
         loadMyProfile(email);
+
+        btnedit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Bundle bundle = new Bundle();
+                bundle.putString("nama", tvnama.getText().toString());
+                bundle.putString("status", tvstatus.getText().toString());
+
+                Intent intent = new Intent(getContext(), EditProfile.class);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
+
         return v;
     }
 
