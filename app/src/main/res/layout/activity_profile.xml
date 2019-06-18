@@ -14,8 +14,8 @@
         <ImageView
             android:id="@+id/profileFotoProfile"
             android:contentDescription="@string/desc_foto_profile"
-            android:layout_width="250dp"
-            android:layout_height="250dp"
+            android:layout_width="225dp"
+            android:layout_height="225dp"
             android:layout_marginTop="20dp"
             android:layout_gravity="center_horizontal"
             tools:background="@drawable/icon_profile"

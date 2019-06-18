@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
@@ -19,6 +20,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -33,8 +37,11 @@ public class Profile extends Fragment {
 
     TextView tvnama, tvjkelamin, tvemail, tvmasjid, tvstatus;
     Button btnedit;
+    ImageView ivprofile;
 
     ProgressDialog checkBar;
+
+    String newFoto;
 
     private static int REQUEST_EDIT_PROFILE = 1;
 
@@ -49,6 +56,7 @@ public class Profile extends Fragment {
         tvmasjid = v.findViewById(R.id.profileMasjid);
         tvstatus = v.findViewById(R.id.profileStatus);
         btnedit = v.findViewById(R.id.profileEditButton);
+        ivprofile = v.findViewById(R.id.profileFotoProfile);
 
         LoadingBarCheck();
         loadMyProfile(email);
@@ -84,6 +92,12 @@ public class Profile extends Fragment {
                             tvemail.setText(email);
                             tvmasjid.setText(data.getString("masjid"));
                             tvstatus.setText(data.getString("status"));
+                            newFoto = data.getString("foto");
+                            Glide.with(getContext())
+                                    .load(newFoto)
+                                    .apply(RequestOptions.skipMemoryCacheOf(true))
+                                    .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
+                                    .into(ivprofile);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
