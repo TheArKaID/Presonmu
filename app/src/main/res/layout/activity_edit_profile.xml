@@ -41,6 +41,7 @@
         android:autofillHints="Status"/>
 
     <EditText
+        android:id="@+id/editPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
@@ -97,6 +98,7 @@
         android:background="@color/colorBlack"/>
 
     <Button
+        android:id="@+id/editSimpan"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"

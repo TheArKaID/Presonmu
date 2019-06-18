@@ -19,6 +19,13 @@ public class EditProfile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
 
+        iv_editFoto = findViewById(R.id.editProfileFoto);
+        et_nama = findViewById(R.id.editProfileNama);
+        et_status = findViewById(R.id.editProfileStatus);
+        et_password = findViewById(R.id.editPassword);
+        et_newPass = findViewById(R.id.editNewPassword);
+        et_newRePass = findViewById(R.id.editNewRePassword);
+        btn_simpan = findViewById(R.id.editSimpan);
 
     }
 }
