@@ -5,4 +5,9 @@
     <string name="btn_edit_profile">Edit Profile</string>
     <string name="desc_foto_profile">Foto Profile</string>
     <string name="text_data_kehadiran_peserta">Data Kehadiran Peserta</string>
+    <string name="btn_simpan">Simpan</string>
+    <string name="desc_edit_profile_picture">Edit Profile Picture</string>
+    <string name="text_change_password">CHANGE PASSWORD</string>
+    <string name="text_new_password">New Password</string>
+    <string name="text_new_re_password">New Re Password</string>
 </resources>
