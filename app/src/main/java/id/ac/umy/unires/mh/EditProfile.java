@@ -7,6 +7,7 @@ import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,6 +20,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -53,7 +55,7 @@ public class EditProfile extends AppCompatActivity {
         btn_simpan = findViewById(R.id.editSimpan);
 
         et_nama.setText(bundle.getString("nama"));
-        et_status.setText(bundle.getString("status"));;
+        et_status.setText(bundle.getString("status"));
 
         iv_editFoto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,11 +125,19 @@ public class EditProfile extends AppCompatActivity {
                     params.put("pass", password);
                     params.put("newpass", newPass);
                     params.put("newrepass", newRePass);
+                    params.put("foto", image2string(bitmap));
 
                     return params;
                 }
         };
 
         Volley.newRequestQueue(this).add(request);
+    }
+
+    private String image2string(Bitmap bitmap){
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 75, byteArrayOutputStream);
+        byte[] imgBytes = byteArrayOutputStream.toByteArray();
+        return Base64.encodeToString(imgBytes, Base64.DEFAULT);
     }
 }
