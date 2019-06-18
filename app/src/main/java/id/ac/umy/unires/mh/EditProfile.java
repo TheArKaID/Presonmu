@@ -50,6 +50,18 @@ public class EditProfile extends AppCompatActivity {
                 pilihGambar();
             }
         });
+
+        btn_simpan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                nama = et_nama.getText().toString();
+                status = et_status.getText().toString();
+                password = et_password.getText().toString();
+                newPass = et_newPass.getText().toString();
+                newRePass = et_newRePass.getText().toString();
+                saveMyData();
+            }
+        });
     }
 
     private void pilihGambar() {
@@ -71,5 +83,10 @@ public class EditProfile extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
+    }
+
+
+    private void saveMyData() {
+
     }
 }
