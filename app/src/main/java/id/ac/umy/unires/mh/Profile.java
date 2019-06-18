@@ -56,6 +56,7 @@ public class Profile extends Fragment {
             public void onClick(View v) {
 
                 Bundle bundle = new Bundle();
+                bundle.putString("email", email);
                 bundle.putString("nama", tvnama.getText().toString());
                 bundle.putString("status", tvstatus.getText().toString());
 

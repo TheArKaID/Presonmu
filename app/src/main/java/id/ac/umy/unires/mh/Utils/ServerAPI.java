@@ -11,5 +11,6 @@ public class ServerAPI {
     public static final String MYHOME_URL = BASE_URL+"home.php";
     public static final String STATUSHOME_URL = BASE_URL+"allstatus.php";
     public static final String CEKPROFILE_URL = BASE_URL+"cekprofile.php";
+    public static final String UPDATEPROFILE_URL = BASE_URL+"updateprofile.php";
 
 }
