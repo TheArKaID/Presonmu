@@ -1,5 +1,6 @@
 package id.ac.umy.unires.mh;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -37,6 +38,8 @@ public class EditProfile extends AppCompatActivity {
 
     String nama, status, password, newPass, newRePass, email;
 
+    ProgressDialog checkBar;
+
     private final int REQUEST_IMAGE_FROM_GALLERY = 200;
 
     Bitmap bitmap;
@@ -71,6 +74,7 @@ public class EditProfile extends AppCompatActivity {
         btn_simpan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                LoadingBarCheck();
                 nama = et_nama.getText().toString();
                 status = et_status.getText().toString();
                 password = et_password.getText().toString();
@@ -116,6 +120,7 @@ public class EditProfile extends AppCompatActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        checkBar.dismiss();
                         Toast.makeText(EditProfile.this, response, Toast.LENGTH_LONG).show();
                         if(response.equals("Update Berhasil")){
                             finish();
@@ -125,6 +130,7 @@ public class EditProfile extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        checkBar.dismiss();
                         Log.d("ErrorSaveProfile = > ", error.getMessage());
                     }
                 }){
@@ -153,5 +159,14 @@ public class EditProfile extends AppCompatActivity {
         bitmap.compress(Bitmap.CompressFormat.JPEG, 75, byteArrayOutputStream);
         byte[] imgBytes = byteArrayOutputStream.toByteArray();
         return Base64.encodeToString(imgBytes, Base64.DEFAULT);
+    }
+
+    private void LoadingBarCheck() {
+        checkBar = new ProgressDialog(this);
+        checkBar.setTitle("Please Wait...");
+        checkBar.setMessage("While We're Updating your Data");
+        checkBar.setCanceledOnTouchOutside(false);
+        checkBar.setCancelable(false);
+        checkBar.show();
     }
 }
