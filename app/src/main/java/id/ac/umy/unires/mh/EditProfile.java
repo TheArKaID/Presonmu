@@ -2,6 +2,7 @@ package id.ac.umy.unires.mh;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -19,6 +20,8 @@ public class EditProfile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
 
+        Bundle bundle = getIntent().getExtras();
+
         iv_editFoto = findViewById(R.id.editProfileFoto);
         et_nama = findViewById(R.id.editProfileNama);
         et_status = findViewById(R.id.editProfileStatus);
@@ -27,5 +30,7 @@ public class EditProfile extends AppCompatActivity {
         et_newRePass = findViewById(R.id.editNewRePassword);
         btn_simpan = findViewById(R.id.editSimpan);
 
+        et_nama.setText(bundle.getString("nama"));
+        et_status.setText(bundle.getString("status"));;
     }
 }
