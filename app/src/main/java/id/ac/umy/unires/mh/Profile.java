@@ -36,6 +36,8 @@ public class Profile extends Fragment {
 
     ProgressDialog checkBar;
 
+    private static int REQUEST_EDIT_PROFILE = 1;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -62,7 +64,7 @@ public class Profile extends Fragment {
 
                 Intent intent = new Intent(getContext(), EditProfile.class);
                 intent.putExtras(bundle);
-                startActivity(intent);
+                startActivityForResult(intent, REQUEST_EDIT_PROFILE);
             }
         });
 
@@ -114,5 +116,12 @@ public class Profile extends Fragment {
         checkBar.setCanceledOnTouchOutside(false);
         checkBar.setCancelable(false);
         checkBar.show();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        LoadingBarCheck();
+        loadMyProfile(email);
     }
 }

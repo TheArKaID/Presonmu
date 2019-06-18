@@ -108,7 +108,6 @@ public class EditProfile extends AppCompatActivity {
         }
     }
 
-
     private void saveMyData() {
         password = Login.md5(password);
         newPass = Login.md5(newPass);
@@ -118,6 +117,9 @@ public class EditProfile extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         Toast.makeText(EditProfile.this, response, Toast.LENGTH_LONG).show();
+                        if(response.equals("Update Berhasil")){
+                            finish();
+                        }
                     }
                 },
                 new Response.ErrorListener() {
