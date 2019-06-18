@@ -8,10 +8,12 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -102,17 +104,20 @@ public class EditProfile extends AppCompatActivity {
 
 
     private void saveMyData() {
+        password = Login.md5(password);
+        newPass = Login.md5(newPass);
+        newRePass = Login.md5(newRePass);
         StringRequest request = new StringRequest(Request.Method.POST, UPDATEPROFILE_URL,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-
+                        Toast.makeText(EditProfile.this, response, Toast.LENGTH_LONG).show();
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
+                        Log.d("ErrorSaveProfile = > ", error.getMessage());
                     }
                 }){
                 @Override
