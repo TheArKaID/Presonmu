@@ -1,7 +1,19 @@
 package id.ac.umy.unires.mh.model;
 
 public class StatusModel {
-    String nama, masjid, status;
+    String nama;
+    String masjid;
+    String status;
+
+    public String getFoto() {
+        return foto;
+    }
+
+    public void setFoto(String foto) {
+        this.foto = foto;
+    }
+
+    String foto;
 
     public StatusModel(){
 

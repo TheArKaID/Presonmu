@@ -81,6 +81,7 @@ public class Home extends Fragment {
                                 status.setNama(data.getString("nama"));
                                 status.setMasjid(data.getString("masjid"));
                                 status.setStatus(data.getString("status"));
+                                status.setFoto(data.getString("foto"));
                                 modelList.add(status);
                             }
                         } catch (JSONException e) {
