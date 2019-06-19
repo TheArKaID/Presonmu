@@ -1,83 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Profile"
     android:gravity="center_horizontal">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <ImageView
-            android:id="@+id/profileFotoProfile"
-            android:contentDescription="@string/desc_foto_profile"
-            android:layout_width="225dp"
-            android:layout_height="225dp"
-            android:layout_marginTop="20dp"
-            android:layout_gravity="center_horizontal"
-            tools:background="@drawable/icon_profile"
-            tools:backgroundTint="@color/colorPrimaryDark"/>
-        <TextView
-            android:id="@+id/profileNama"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_gravity="start"
-            tools:text="Nama"
-            android:textColor="@color/colorPrimary"
-            android:textSize="20sp"/>
-        <TextView
-            android:id="@+id/profileJenisKelamin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_gravity="start"
-            tools:text="Jenis Kelamin"
-            android:textColor="@color/colorPrimary"
-            android:textSize="20sp"/>
-        <TextView
-            android:id="@+id/profileEmail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_gravity="start"
-            tools:text="Email"
-            android:textColor="@color/colorPrimary"
-            android:textSize="20sp"/>
-        <TextView
-            android:id="@+id/profileMasjid"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_gravity="start"
-            tools:text="Masjid"
-            android:textColor="@color/colorPrimary"
-            android:textSize="20sp"/>
-        <TextView
-            android:id="@+id/profileStatus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_gravity="start"
-            tools:text="Status"
-            android:textColor="@color/colorPrimary"
-            android:textSize="20sp"/>
-        <Button
-            android:id="@+id/profileEditButton"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_gravity="center"
-            android:text="@string/btn_edit_profile"
-            android:background="@color/colorPrimaryDark"
-            android:textColor="@color/colorAccent"/>
-    </LinearLayout>
-</ScrollView>
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <ImageView
+                android:id="@+id/profileFotoProfile"
+                android:layout_width="225dp"
+                android:layout_height="225dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
+                android:contentDescription="@string/desc_foto_profile"
+                tools:background="@drawable/icon_profile"
+                tools:backgroundTint="@color/colorPrimaryDark" />
+
+            <TextView
+                android:id="@+id/profileNama"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:textColor="@color/colorPrimary"
+                android:textSize="20sp"
+                tools:text="Nama" />
+
+            <TextView
+                android:id="@+id/profileJenisKelamin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:textColor="@color/colorPrimary"
+                android:textSize="20sp"
+                tools:text="Jenis Kelamin" />
+
+            <TextView
+                android:id="@+id/profileEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:textColor="@color/colorPrimary"
+                android:textSize="20sp"
+                tools:text="Email" />
+
+            <TextView
+                android:id="@+id/profileMasjid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:textColor="@color/colorPrimary"
+                android:textSize="20sp"
+                tools:text="Masjid" />
+
+            <TextView
+                android:id="@+id/profileStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:textColor="@color/colorPrimary"
+                android:textSize="20sp"
+                tools:text="Status" />
+        </LinearLayout>
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom">
+
+            <Button
+                android:id="@+id/profileEditButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@color/colorPrimaryDark"
+                android:text="@string/btn_edit_profile"
+                android:textColor="@color/colorAccent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+        </android.support.constraint.ConstraintLayout>
+</android.support.constraint.ConstraintLayout>
