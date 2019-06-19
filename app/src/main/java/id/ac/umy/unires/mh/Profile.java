@@ -21,8 +21,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.RequestOptions;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -95,8 +93,6 @@ public class Profile extends Fragment {
                             newFoto = data.getString("foto");
                             Glide.with(getContext())
                                     .load(newFoto)
-                                    .apply(RequestOptions.skipMemoryCacheOf(true))
-                                    .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
                                     .into(ivprofile);
                         } catch (JSONException e) {
                             e.printStackTrace();
