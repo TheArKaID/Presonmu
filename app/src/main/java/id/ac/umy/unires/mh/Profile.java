@@ -67,6 +67,7 @@ public class Profile extends Fragment {
                 bundle.putString("email", email);
                 bundle.putString("nama", tvnama.getText().toString());
                 bundle.putString("status", tvstatus.getText().toString());
+                bundle.putString("foto", newFoto);
 
                 Intent intent = new Intent(getContext(), EditProfile.class);
                 intent.putExtras(bundle);
@@ -93,6 +94,8 @@ public class Profile extends Fragment {
                             newFoto = data.getString("foto");
                             Glide.with(getContext())
                                     .load(newFoto)
+                                    .fitCenter()
+                                    .error(R.drawable.icon_profile)
                                     .into(ivprofile);
                         } catch (JSONException e) {
                             e.printStackTrace();

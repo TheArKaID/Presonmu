@@ -22,6 +22,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -63,6 +65,12 @@ public class EditProfile extends AppCompatActivity {
 
         et_nama.setText(bundle.getString("nama"));
         et_status.setText(bundle.getString("status"));
+        Glide.with(this)
+                .load(bundle.getString("foto"))
+                .apply(new RequestOptions().override(200, 200))
+                .fitCenter()
+                .error(R.drawable.icon_profile)
+                .into(iv_editFoto);
 
         iv_editFoto.setOnClickListener(new View.OnClickListener() {
             @Override
