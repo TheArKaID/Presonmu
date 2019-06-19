@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center|top"
+    android:layout_marginTop="15dp"
     tools:context=".EditProfile">
 
     <ImageView
@@ -25,6 +26,7 @@
         android:layout_marginEnd="15dp"
         android:inputType="text"
         android:hint="Nama"
+        app:backgroundTint="@color/colorPrimaryDark"
         tools:text="Nama"
         android:autofillHints="Nama"/>
 
@@ -37,6 +39,7 @@
         android:layout_marginEnd="15dp"
         android:inputType="text"
         android:hint="Status"
+        app:backgroundTint="@color/colorPrimaryDark"
         tools:text="Status"
         android:autofillHints="Status"/>
 
@@ -48,6 +51,7 @@
         android:layout_marginStart="15dp"
         android:layout_marginEnd="15dp"
         android:hint="Password"
+        app:backgroundTint="@color/colorPrimaryDark"
         tools:text="password"
         android:inputType="textPassword"
         android:autofillHints="Password"/>
@@ -78,6 +82,7 @@
         android:inputType="textPassword"
         android:hint="@string/text_new_password"
         android:autofillHints="New Password"
+        app:backgroundTint="@color/colorPrimaryDark"
         tools:text="New Password"/>
 
     <EditText
@@ -90,6 +95,7 @@
         android:inputType="textPassword"
         android:hint="@string/text_new_re_password"
         android:autofillHints="New Re-Password"
+        app:backgroundTint="@color/colorPrimaryDark"
         tools:text="New Password"/>
 
     <android.support.constraint.ConstraintLayout
