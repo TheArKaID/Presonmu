@@ -20,6 +20,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -121,6 +122,11 @@ public class Home extends Fragment {
                            nama.setText(jsonObject.getString("nama"));
                            masjid.setText(jsonObject.getString("masjid"));
                            status.setText(jsonObject.getString("status"));
+                           Glide.with(getContext())
+                                   .load(jsonObject.getString("foto"))
+                                   .fitCenter()
+                                   .error(R.drawable.icon_profile)
+                                   .into(foto);
                        }catch (Exception e){
                            Log.d("onErrorRequest=> ", e.toString());
                        }
