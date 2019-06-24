@@ -96,6 +96,7 @@ public class Home extends Fragment {
         builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                LoadingBarCheck();
                 updateStatus();
                 dialog.dismiss();
                 statusUpdated = input.getText().toString();
@@ -117,13 +118,14 @@ public class Home extends Fragment {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-
+                        Toast.makeText(getContext(), response, Toast.LENGTH_LONG).show();
+                        loadMyData(email);
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
+                        Log.d("ErrorUpdateStatus = >", error.getMessage());
                     }
                 }){
                 @Override
