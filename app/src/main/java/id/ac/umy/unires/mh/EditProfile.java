@@ -153,7 +153,7 @@ public class EditProfile extends AppCompatActivity {
                     params.put("newpass", newPass);
                     params.put("newrepass", newRePass);
                     params.put("ischangepass", isChangePass.toString());
-                    params.put("foto", image2string(bitmap));
+                    params.put("foto", (bitmap==null ? "" : image2string(bitmap)));
                     params.put("fotosign", String.valueOf(System.currentTimeMillis()));
 
                     return params;
