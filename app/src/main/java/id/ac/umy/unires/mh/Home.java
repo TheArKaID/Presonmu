@@ -52,6 +52,8 @@ public class Home extends Fragment {
 
     ArrayList<StatusModel> modelList = new ArrayList<>();
 
+    String statusUpdated;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -86,7 +88,7 @@ public class Home extends Fragment {
 
         View viewInflated = LayoutInflater.from(getContext()).inflate(R.layout.activity_update_status, (ViewGroup) getView(), false);
 
-        EditText input = viewInflated.findViewById(R.id.input);
+        final EditText input = viewInflated.findViewById(R.id.input);
         input.setHintTextColor(getResources().getColor(R.color.colorBlack));
         input.invalidate();
         builder.setView(viewInflated);
@@ -94,7 +96,9 @@ public class Home extends Fragment {
         builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                updateStatus();
                 dialog.dismiss();
+                statusUpdated = input.getText().toString();
             }
         });
         builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
@@ -104,7 +108,33 @@ public class Home extends Fragment {
             }
         });
 
+
         builder.show();
+    }
+
+    private void updateStatus() {
+        StringRequest request = new StringRequest(Request.Method.POST, UPDATESTATUS_URL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                }){
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+                    HashMap<String, String> params = new HashMap<>();
+                    params.put("email", email);
+                    params.put("status", statusUpdated);
+                    return params;
+            }
+        };
+        Volley.newRequestQueue(getContext()).add(request);
     }
 
     private void loadStatusData(final String email) {
