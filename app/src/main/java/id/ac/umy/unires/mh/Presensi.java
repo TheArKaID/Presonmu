@@ -217,7 +217,7 @@ public class Presensi extends Fragment implements OnMapReadyCallback {
         map = googleMap;
 //        map.getUiSettings().setMyLocationButtonEnabled(false);
         if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, Welcome.MY_PERMISSIONS_REQUEST_LOCATION);
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, Welcome.MY_PERMISSIONS_REQUEST_LOCATION);
             return;
         }
         map.setMyLocationEnabled(true);
