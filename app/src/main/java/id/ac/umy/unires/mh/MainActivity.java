@@ -1,10 +1,12 @@
 package id.ac.umy.unires.mh;
 
+import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -18,6 +20,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public static String email;
 
+    AlertDialog exitDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mToggle.syncState();
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        if(savedInstanceState == null){
+        if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentMain, new Home()).commit();
             navigationView.setCheckedItem(R.id.homeMenu);
         }
@@ -45,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-        switch (menuItem.getItemId()){
+        switch (menuItem.getItemId()) {
             case R.id.homeMenu:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragmentMain, new Home()).commit();
                 break;
@@ -55,14 +58,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.riwayatMenu:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragmentMain, new Riwayat()).commit();
                 break;
-            case  R.id.profileMenu:
+            case R.id.profileMenu:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragmentMain, new Profile()).commit();
                 break;
             case R.id.aboutMenu:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragmentMain, new About()).commit();
                 break;
-            case  R.id.exitMenu:
-                finishAndRemoveTask();
+            case R.id.exitMenu:
+                exit();
                 break;
         }
 
@@ -74,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(mToggle.onOptionsItemSelected(item)){
+        if (mToggle.onOptionsItemSelected(item)) {
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -82,11 +85,29 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onBackPressed() {
-        if(mDrawerlayout.isDrawerOpen(GravityCompat.START)){
+        if (mDrawerlayout.isDrawerOpen(GravityCompat.START)) {
             mDrawerlayout.closeDrawer(GravityCompat.START);
-        }
-        else {
+        } else {
             super.onBackPressed();
         }
+    }
+
+    private void exit() {
+        exitDialog = new AlertDialog.Builder(MainActivity.this).create();
+        exitDialog.setTitle("Keluar");
+        exitDialog.setMessage("Anda ingin Keluar ?");
+        exitDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Batal",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        exitDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Ok",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        finishAndRemoveTask();
+                    }
+                });
+        exitDialog.show();
     }
 }
