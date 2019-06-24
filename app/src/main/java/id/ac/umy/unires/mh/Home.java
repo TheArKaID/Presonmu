@@ -73,11 +73,38 @@ public class Home extends Fragment {
         btnUpdateStatus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                showUpdateStatus();
             }
         });
 
         return v;
+    }
+
+    private void showUpdateStatus() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Apa yang anda pikirkan ?");
+
+        View viewInflated = LayoutInflater.from(getContext()).inflate(R.layout.activity_update_status, (ViewGroup) getView(), false);
+
+        EditText input = viewInflated.findViewById(R.id.input);
+        input.setHintTextColor(getResources().getColor(R.color.colorBlack));
+        input.invalidate();
+        builder.setView(viewInflated);
+
+        builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
     }
 
     private void loadStatusData(final String email) {
