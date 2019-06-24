@@ -1,18 +1,23 @@
 package id.ac.umy.unires.mh;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -40,6 +45,7 @@ public class Home extends Fragment {
 
     TextView nama, masjid, status;
     ImageView foto;
+    FloatingActionButton btnUpdateStatus;
 
     ProgressDialog checkBar;
     RecyclerView recyclerView;
@@ -55,6 +61,7 @@ public class Home extends Fragment {
         masjid = v.findViewById(R.id.myMasjidPeserta);
         status = v.findViewById(R.id.myStatusPeserta);
         foto = v.findViewById(R.id.myProfilePicture);
+        btnUpdateStatus = v.findViewById(R.id.fUpdateStatus);
 
         recyclerView = v.findViewById(R.id.rv_status);
         recyclerView.setHasFixedSize(true);
@@ -62,6 +69,13 @@ public class Home extends Fragment {
         LoadingBarCheck();
         loadStatusData(email);
         loadMyData(email);
+
+        btnUpdateStatus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
         return v;
     }
