@@ -36,7 +36,6 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -162,7 +161,6 @@ public class Presensi extends Fragment implements OnMapReadyCallback,
     }
 
     private void doAbsen() {
-        //TODO: Progress Bar When Absen
         final AlertDialog.Builder notif = new AlertDialog.Builder(getContext());
         StringRequest absen = new StringRequest(Request.Method.POST, ABSEN_URL,
                 new Response.Listener<String>() {
@@ -207,6 +205,7 @@ public class Presensi extends Fragment implements OnMapReadyCallback,
                 params.put("email", email);
                 params.put("tanggal", haridantanggalnya);
                 params.put("shift", shift);
+                params.put("latlng", lastLocation.getLatitude() + ", " + lastLocation.getLongitude());
 
                 return params;
             }
@@ -300,7 +299,7 @@ public class Presensi extends Fragment implements OnMapReadyCallback,
         if(currentLocationMarker != null)
             currentLocationMarker.remove();
 
-        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+        LatLng latLng = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());
 
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(latLng);
