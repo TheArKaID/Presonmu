@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_marginTop="70dp"
-    android:layout_width="match_parent"
-    android:layout_height="160dp"
-    android:background="@drawable/logo_unires">
+    android:layout_marginTop="0dp"
+    android:layout_width="240dp"
+    android:layout_height="240dp"
+    android:background="@drawable/logo"
+    android:layout_gravity="center">
 
 </LinearLayout>
