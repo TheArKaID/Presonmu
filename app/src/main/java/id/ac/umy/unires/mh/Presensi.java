@@ -1,7 +1,6 @@
 package id.ac.umy.unires.mh;
 
 import android.Manifest;
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
@@ -12,6 +11,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,10 +23,10 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationRequest;
@@ -89,7 +89,11 @@ public class Presensi extends Fragment implements OnMapReadyCallback,
             @Override
             public void onClick(View v) {
                 LoadingBarCheck();
-                doAbsen();
+                if(lastLocation.isFromMockProvider()) {
+                    exit(lastLocation.getProvider());
+                    checkBar.dismiss();
+                }else
+                    doAbsen();
             }
         });
         return v;
@@ -319,5 +323,18 @@ public class Presensi extends Fragment implements OnMapReadyCallback,
                 .addApi(LocationServices.API)
                 .build();
         googleApiClient.connect();
+    }
+
+    private void exit(String mocker) {
+        AlertDialog exitDialog = new AlertDialog.Builder(getContext()).create();
+        exitDialog.setTitle("Fake GPS Terdeteksi : " + mocker);
+        exitDialog.setMessage("Matikan Fake GPS dan coba lagi");
+        exitDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Ok",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        getActivity().finishAndRemoveTask();
+                    }
+                });
+        exitDialog.show();
     }
 }
