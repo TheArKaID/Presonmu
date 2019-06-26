@@ -2,9 +2,12 @@ package id.ac.umy.unires.mh;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -13,6 +16,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import static id.ac.umy.unires.mh.Utils.ServerAPI.VERSIONCHECK_URL;
@@ -21,33 +25,46 @@ public class SplashActivity extends AppCompatActivity {
 
     ProgressDialog checkBar;
 
-    String isContinuable;
-
+    String version;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
         checkBar = new ProgressDialog(this);
-
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("id.ac.umy.unires.mh.DATA_DIRI", MODE_PRIVATE);
+        SharedPreferences.Editor prefEdit = pref.edit();
+        if (pref.getString("version", null) != null) {
+            version = pref.getString("version", "1.0.0");
+        } else{
+            version = "1.0.0";
+            prefEdit.putString("version", version);
+        }
+        prefEdit.apply();
         new versionCheck().execute();
     }
 
-    private class versionCheck extends AsyncTask<Void, Void, String>{
+    private class versionCheck extends AsyncTask<Void, Void, Void>{
 
         @Override
-        protected String doInBackground(Void... voids) {
+        protected Void doInBackground(Void... voids) {
             askVersion();
-            return "";
+            return null;
         }
 
         @Override
         protected void onPreExecute() {
-            loadingBarCheck();
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    loadingBarCheck();
+                }
+            });
         }
 
         @Override
-        protected void onPostExecute(String aVoid) {
+        protected void onPostExecute(Void aVoid) {
+            checkBar.dismiss();
             super.onPostExecute(aVoid);
         }
     }
@@ -56,19 +73,30 @@ public class SplashActivity extends AppCompatActivity {
         StringRequest request = new StringRequest(Request.Method.POST, VERSIONCHECK_URL,
                 new Response.Listener<String>() {
                     @Override
-                    public void onResponse(String response) {
-                        continueOrNot(response);
+                    public void onResponse(final String response) {
+                        if(response.equals("Versi Baru")){
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(SplashActivity.this, response, Toast.LENGTH_LONG).show();
+                                }
+                            });
+                        } else{
+                            letsIntent();
+                        }
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
+                        Log.d("Error Splash Request=> ", error.getMessage());
                     }
                 }){
                 @Override
                 protected Map<String, String> getParams() throws AuthFailureError {
-                    return super.getParams();
+                    HashMap<String, String> params = new HashMap<>();
+                    params.put("version", version);
+                    return params;
                 }
         };
 
@@ -76,24 +104,19 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void loadingBarCheck() {
-        checkBar.setTitle("Please Wait...");
-        checkBar.setMessage("While We're Checking your Data");
+        checkBar.setTitle("Version Checking");
+        checkBar.setMessage("Please Wait...");
         checkBar.setCanceledOnTouchOutside(false);
         checkBar.setCancelable(false);
         checkBar.show();
     }
 
-    private void continueOrNot(String result){
-        if(result.equals("Versi Baru")){
-
-        } else if(result.equals("MH Selesai")){
-
-        } else{
+    private void letsIntent(){
             Thread thread = new Thread(){
                 @Override
                 public void run() {
                     try{
-                        sleep(5000);
+                        sleep(1000);
                     } catch (Exception e){
                         e.printStackTrace();
                     } finally {
@@ -103,7 +126,6 @@ public class SplashActivity extends AppCompatActivity {
                 }
             };
             thread.start();
-        }
     }
 
     @Override
