@@ -64,21 +64,25 @@ public class Welcome extends AppCompatActivity {
     }
 
     private void CheckLocationPermission() {
-        if (ActivityCompat.checkSelfPermission(Welcome.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(Welcome.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(Welcome.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED&& ActivityCompat.checkSelfPermission(Welcome.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)  {
-            showAskPermission.setTitle("Izin dibutuhkan")
-                    .setMessage("Aplikasi ini harus memiliki izin untuk mengakses lokasi anda.")
-                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            ActivityCompat.requestPermissions(Welcome.this, new String[]{ Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_LOCATION);
-                        }
-                    }).setOnCancelListener(new DialogInterface.OnCancelListener() {
-                        @Override
-                        public void onCancel(DialogInterface dialog) {
-                            Toast.makeText(Welcome.this,"Maaf, anda harus memberi aplikasi ini izin. Dismiss", Toast.LENGTH_LONG).show();
-                            checkBar.dismiss();
-                        }
-                    }).show();
+        if (ActivityCompat.checkSelfPermission(Welcome.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(Welcome.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(Welcome.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(Welcome.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)  {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    showAskPermission.setTitle("Izin dibutuhkan")
+                        .setMessage("Aplikasi ini harus memiliki izin untuk mengakses lokasi anda.")
+                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                ActivityCompat.requestPermissions(Welcome.this, new String[]{ Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_LOCATION);
+                            }
+                        }).setOnCancelListener(new DialogInterface.OnCancelListener() {
+                            @Override
+                            public void onCancel(DialogInterface dialog) {
+                                toaster("Maaf, anda harus memberi aplikasi ini izin. Dismiss");
+                            }
+                        }).show();
+                }
+            });
         } else {
             intenter();
         }
@@ -92,7 +96,7 @@ public class Welcome extends AppCompatActivity {
                 intenter();
                 return;
             } else{
-                Toast.makeText(this,"Maaf, anda harus memberi aplikasi ini izin", Toast.LENGTH_LONG).show();
+                toaster("Maaf, anda harus memberi aplikasi ini izin");
             }
         }
         checkBar.dismiss();
@@ -119,14 +123,13 @@ public class Welcome extends AppCompatActivity {
 
             prefEdit.apply();
         } else {
-            Toast.makeText(Welcome.this, "Check your internet connection", Toast.LENGTH_LONG).show();
-            checkBar.dismiss();
+            toaster("Check your internet connection");
         }
     }
 
     private void LoginandIntent(final String email, final String password) {
         if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
-            Toast.makeText(this, "Harap Masukkan email dan password anda", Toast.LENGTH_LONG).show();
+            toaster("Harap Masukkan email dan password anda");
         } else {
             if (isInternetWorking()) {
                 StringRequest request = new StringRequest(Request.Method.POST, LOGIN_URL,
@@ -150,16 +153,14 @@ public class Welcome extends AppCompatActivity {
                                     checkBar.dismiss();
                                     startActivity(mainIntent);
                                 } else{
-                                    Toast.makeText(Welcome.this, response, Toast.LENGTH_LONG).show();
-                                    checkBar.dismiss();
+                                    toaster(response);
                                 }
                             }
                         },
                         new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError error) {
-                                Toast.makeText(Welcome.this, "Error Response => "+error.toString(), Toast.LENGTH_LONG).show();
-                                checkBar.dismiss();
+                                toaster("Error Response => "+error.toString());
                             }
                         }){
                     @Override
@@ -174,8 +175,7 @@ public class Welcome extends AppCompatActivity {
                 Volley.newRequestQueue(this).add(request);
 
             } else {
-                Toast.makeText(Welcome.this, "Check your internet connection", Toast.LENGTH_LONG).show();
-                checkBar.dismiss();
+                toaster("Check your internet connection");
             }
         }
 
@@ -218,6 +218,17 @@ public class Welcome extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Void aVoid) {
+            checkBar.dismiss();
         }
+    }
+
+    private void toaster(final String message){
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(Welcome.this, message, Toast.LENGTH_LONG).show();
+                checkBar.dismiss();
+            }
+        });
     }
 }
