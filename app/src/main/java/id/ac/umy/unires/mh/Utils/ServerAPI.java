@@ -13,5 +13,6 @@ public class ServerAPI {
     public static final String CEKPROFILE_URL = BASE_URL+"cekprofile.php";
     public static final String UPDATEPROFILE_URL = BASE_URL+"updateprofile.php";
     public static final String UPDATESTATUS_URL = BASE_URL+"updatestatus.php";
+    public static final String VERSIONCHECK_URL = BASE_URL+"versioncheck.php";
 
 }
