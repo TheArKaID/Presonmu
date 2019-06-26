@@ -1,9 +1,11 @@
 package id.ac.umy.unires.mh;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -78,7 +80,7 @@ public class SplashActivity extends AppCompatActivity {
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    Toast.makeText(SplashActivity.this, response, Toast.LENGTH_LONG).show();
+                                    exit();
                                 }
                             });
                         } else{
@@ -88,8 +90,14 @@ public class SplashActivity extends AppCompatActivity {
                 },
                 new Response.ErrorListener() {
                     @Override
-                    public void onErrorResponse(VolleyError error) {
+                    public void onErrorResponse(final VolleyError error) {
                         Log.d("Error Splash Request=> ", error.getMessage());
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(SplashActivity.this, "Gagal Terhubung. Restart Aplikasi."+error.getMessage(), Toast.LENGTH_LONG).show();
+                            }
+                        });
                     }
                 }){
                 @Override
@@ -133,5 +141,20 @@ public class SplashActivity extends AppCompatActivity {
         super.onPause();
 
         finish();
+    }
+
+    private void exit() {
+        AlertDialog exitDialog = new AlertDialog.Builder(SplashActivity.this).create();
+        exitDialog.setTitle("Versi Baru Tersedia");
+        exitDialog.setMessage("Silahkan Hubungi Pengembang Untuk Mendapatkan Versi Baru.");
+        exitDialog.setCancelable(false);
+        exitDialog.setCanceledOnTouchOutside(false);
+        exitDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Ok",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        finishAndRemoveTask();
+                    }
+                });
+        exitDialog.show();
     }
 }
