@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.os.AsyncTask;
 import android.os.StrictMode;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -57,8 +58,7 @@ public class Welcome extends AppCompatActivity {
         checkingBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LoadingBarCheck();
-                CheckLocationPermission();
+                new newWelcome().execute();
             }
         });
     }
@@ -201,5 +201,23 @@ public class Welcome extends AppCompatActivity {
         checkBar.setCanceledOnTouchOutside(false);
         checkBar.setCancelable(false);
         checkBar.show();
+    }
+
+    private class newWelcome extends AsyncTask<Void, Void, Void>{
+
+        @Override
+        protected Void doInBackground(Void...voids) {
+            CheckLocationPermission();
+            return null;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            LoadingBarCheck();
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+        }
     }
 }
