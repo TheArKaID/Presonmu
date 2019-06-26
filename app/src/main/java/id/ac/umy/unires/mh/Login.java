@@ -3,6 +3,7 @@ package id.ac.umy.unires.mh;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -55,20 +56,15 @@ public class Login extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LoadingBarCheck();
-                email = emailET.getText().toString();
-                password = passwordET.getText().toString();
-
-                Login(email, password);
+                new newLogin().execute();
             }
         });
     }
 
-    public void Login(final String email, String password) {
+    public void login(final String email, String password) {
         final String pass =  md5(password);
         if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
-            Toast.makeText(this, "Harap Masukkan email dan password anda", Toast.LENGTH_LONG).show();
-            checkBar.dismiss();
+            toaster("Harap Masukkan email dan password anda");
         } else {
             if (isInternetWorking()) {
                 StringRequest request = new StringRequest(Request.Method.POST, LOGIN_URL,
@@ -93,15 +89,14 @@ public class Login extends AppCompatActivity {
                                 checkBar.dismiss();
                                 startActivity(mainIntent);
                             } else{
-                                Toast.makeText(Login.this, response, Toast.LENGTH_LONG).show();
-                                checkBar.dismiss();
+                                toaster(response);
                             }
                         }
                     },
                     new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
-                            Toast.makeText(Login.this, "Error Response =>"+error.toString(), Toast.LENGTH_LONG).show();
+                            toaster("Error Response =>"+error.toString());
                         }
                     }){
                     @Override
@@ -115,8 +110,7 @@ public class Login extends AppCompatActivity {
                 Volley.newRequestQueue(this).add(request);
 
             } else {
-                Toast.makeText(Login.this, "Check your internet connection", Toast.LENGTH_LONG).show();
-                checkBar.dismiss();
+                toaster("Check your internet connection");
             }
         }
     }
@@ -159,5 +153,36 @@ public class Login extends AppCompatActivity {
             e.printStackTrace();
         }
         return success;
+    }
+
+    private class newLogin extends AsyncTask<Void, Void, Void>{
+
+        @Override
+        protected void onPreExecute() {
+            LoadingBarCheck();
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            email = emailET.getText().toString();
+            password = passwordET.getText().toString();
+
+            login(email, password);
+            return null;
+        }
+    }
+
+    private void toaster(final String message){
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(Login.this, message, Toast.LENGTH_LONG).show();
+                checkBar.dismiss();
+            }
+        });
     }
 }

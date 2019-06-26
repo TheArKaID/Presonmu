@@ -110,7 +110,6 @@ public class Welcome extends AppCompatActivity {
                 email = pref.getString("email", null);
                 password = pref.getString("pass", null);
                 LoginandIntent(email, password);
-                // TODO : Intent ke halaman awal melalui Login dengan data yang disimpan
             } else {
                 Bundle bundle = new Bundle();
                 bundle.putString("email", email);
@@ -218,7 +217,6 @@ public class Welcome extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            checkBar.dismiss();
         }
     }
 
