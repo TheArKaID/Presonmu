@@ -183,7 +183,7 @@ public class Welcome extends AppCompatActivity {
     public boolean isInternetWorking() {
         boolean success = false;
         try {
-            URL url = new URL("https://google.com");
+            URL url = new URL("https://google.co.id");
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setConnectTimeout(10000);
             connection.connect();
