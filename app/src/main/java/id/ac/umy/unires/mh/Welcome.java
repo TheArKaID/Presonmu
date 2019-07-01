@@ -188,6 +188,7 @@ public class Welcome extends AppCompatActivity {
             connection.setConnectTimeout(10000);
             connection.connect();
             success = connection.getResponseCode() == 200;
+            connection.disconnect();
         } catch (IOException e) {
             e.printStackTrace();
         }
