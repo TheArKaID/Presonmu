@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -106,7 +107,8 @@ public class Profile extends Fragment {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.d("CekProfileErrorResponse", error.getMessage());
+                        Toast.makeText(getContext(), error.getMessage() != null ? error.getMessage() : "", Toast.LENGTH_SHORT).show();
+                        Log.d("CekProfileErrorResponse", error.getMessage() != null ? error.getMessage() : "");
                         checkBar.dismiss();
                     }
                 }){

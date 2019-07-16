@@ -125,7 +125,7 @@ public class Home extends Fragment {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.d("ErrorUpdateStatus = >", error.getMessage());
+                        Log.d("ErrorUpdateStatus = >", error.getMessage() != null ? error.getMessage() : "");
                     }
                 }){
                 @Override
@@ -166,7 +166,7 @@ public class Home extends Fragment {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.d("LoadStatusDataError", error.getMessage());
+                        Log.d("LoadStatusDataError", error.getMessage() != null ? error.getMessage() : "");
                     }
                 }){
                 @Override
@@ -210,7 +210,8 @@ public class Home extends Fragment {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.d("loadMyDataError =>", error.getMessage());
+                        Toast.makeText(getContext(), error.getMessage() != null ? error.getMessage() : "", Toast.LENGTH_SHORT).show();
+                        Log.d("loadMyDataError =>", error.getMessage() != null ? error.getMessage() : "");
                         checkBar.dismiss();
                     }
                 }){

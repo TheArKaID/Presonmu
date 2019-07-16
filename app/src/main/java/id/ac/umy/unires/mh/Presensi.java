@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -127,7 +128,8 @@ public class Presensi extends Fragment implements OnMapReadyCallback,
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.d("Error Volley, ", "onErrorResponse => " + error.getMessage());
+                        Toast.makeText(getContext(), error.getMessage() != null ? error.getMessage() : "", Toast.LENGTH_SHORT).show();
+                        Log.d("Error Volley, ", "onErrorResponse => " + (error.getMessage() != null ? error.getMessage() : ""));
                     }
                 });
         Volley.newRequestQueue(getContext()).add(request);
@@ -147,7 +149,7 @@ public class Presensi extends Fragment implements OnMapReadyCallback,
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.d("Error =>", error.getMessage());
+                        Log.d("Error =>", error.getMessage() != null ? error.getMessage() : "");
                     }
                 }) {
             @Override
@@ -199,7 +201,7 @@ public class Presensi extends Fragment implements OnMapReadyCallback,
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         checkBar.dismiss();
-                        Log.d("onErrorResponse", error.getMessage());
+                        Log.d("onErrorResponse", error.getMessage() != null ? error.getMessage() : "");
                     }
                 }) {
             @Override

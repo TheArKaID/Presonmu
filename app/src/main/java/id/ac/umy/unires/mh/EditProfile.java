@@ -153,7 +153,8 @@ public class EditProfile extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         checkBar.dismiss();
-                        Log.d("ErrorSaveProfile = > ", error.getMessage());
+                        Toast.makeText(EditProfile.this, error.getMessage() != null ? error.getMessage() : "", Toast.LENGTH_SHORT).show();
+                        Log.d("ErrorSaveProfile = > ", error.getMessage() != null ? error.getMessage() : "");
                     }
                 }){
                 @Override

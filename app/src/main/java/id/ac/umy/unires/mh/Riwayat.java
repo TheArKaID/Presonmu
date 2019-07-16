@@ -94,7 +94,8 @@ public class Riwayat extends Fragment {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.d("ErrorCekRiwayat => ", error.getMessage());
+                        Toast.makeText(getContext(), error.getMessage() != null ? error.getMessage() : "", Toast.LENGTH_SHORT).show();
+                        Log.d("ErrorCekRiwayat => ", error.getMessage() != null ? error.getMessage() : "");
                     }
                 }){
                 @Override

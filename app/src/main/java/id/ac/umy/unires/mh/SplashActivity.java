@@ -91,11 +91,12 @@ public class SplashActivity extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(final VolleyError error) {
-                        Log.d("Error Splash Request=> ", error.getMessage());
+                        Log.d("Error Splash Request=> ", error.getMessage() != null ? error.getMessage() : "");
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Toast.makeText(SplashActivity.this, "Gagal Terhubung. Restart Aplikasi."+error.getMessage(), Toast.LENGTH_LONG).show();
+                                Toast.makeText(SplashActivity.this, "Gagal Terhubung. Restart Aplikasi."+ (error.getMessage() != null ? error.getMessage() : ""), Toast.LENGTH_LONG).show();
+                                Log.d("AboutErrorRequest =>", error.getMessage() != null ? error.getMessage() : "");
                             }
                         });
                     }
