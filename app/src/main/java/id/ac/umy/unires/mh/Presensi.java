@@ -89,12 +89,25 @@ public class Presensi extends Fragment implements OnMapReadyCallback,
         absen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LoadingBarCheck();
-                if(lastLocation.isFromMockProvider()) {
-                    exit(lastLocation.getProvider());
-                    checkBar.dismiss();
-                }else
-                    doAbsen();
+                if(lastLocation==null){
+                    AlertDialog exitDialog = new AlertDialog.Builder(getContext()).create();
+                    exitDialog.setTitle("Tidak bisa presensi");
+                    exitDialog.setMessage("Data Lokasi tidak ditemukan. Pastikan service Lokasi anda aktif dan mengizinkan Presonmu mengaksesnya");
+                    exitDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Ok",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                }
+                            });
+                    exitDialog.show();
+                } else{
+                    LoadingBarCheck();
+                    if(lastLocation.isFromMockProvider()) {
+                        exit(lastLocation.getProvider());
+                        checkBar.dismiss();
+                    }else
+                        doAbsen();
+                }
             }
         });
         return v;
