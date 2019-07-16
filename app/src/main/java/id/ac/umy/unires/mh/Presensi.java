@@ -344,6 +344,8 @@ public class Presensi extends Fragment implements OnMapReadyCallback,
         AlertDialog exitDialog = new AlertDialog.Builder(getContext()).create();
         exitDialog.setTitle("Fake GPS Terdeteksi : " + mocker);
         exitDialog.setMessage("Matikan Fake GPS dan coba lagi");
+        exitDialog.setCancelable(false);
+        exitDialog.setCanceledOnTouchOutside(false);
         exitDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Ok",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
