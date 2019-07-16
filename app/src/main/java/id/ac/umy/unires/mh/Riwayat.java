@@ -94,6 +94,7 @@ public class Riwayat extends Fragment {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        checkBar.dismiss();
                         Toast.makeText(getContext(), error.getMessage() != null ? error.getMessage() : "", Toast.LENGTH_SHORT).show();
                         Log.d("ErrorCekRiwayat => ", error.getMessage() != null ? error.getMessage() : "");
                     }
@@ -112,7 +113,6 @@ public class Riwayat extends Fragment {
     }
 
     private void showMyBarChart(String[] days, ArrayList<BarEntry> shift1, ArrayList<BarEntry> shift2) {
-        checkBar.dismiss();
         BarDataSet dataSet1 = new BarDataSet(shift1, "Shift 1");
         dataSet1.setColor(Color.YELLOW);
         BarDataSet dataSet2 = new BarDataSet(shift2, "Shift 2");
@@ -154,6 +154,7 @@ public class Riwayat extends Fragment {
         barChart.animateY(1000, Easing.EaseInOutCirc);
 
         barChart.invalidate();
+        checkBar.dismiss();
     }
 
     private void LoadingBarCheck() {
