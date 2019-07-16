@@ -45,6 +45,7 @@ public class EditProfile extends AppCompatActivity {
     private final int REQUEST_IMAGE_FROM_GALLERY = 200;
 
     Bitmap bitmap;
+    byte[] imgBytes;
 
     Boolean isChangePass;
 
@@ -113,7 +114,20 @@ public class EditProfile extends AppCompatActivity {
 
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), image);
-                iv_editFoto.setImageBitmap(bitmap);
+
+//                Cek ukuran gambar
+                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 75, byteArrayOutputStream);
+                imgBytes = byteArrayOutputStream.toByteArray();
+                long lengthbitmap = imgBytes.length;
+                if(lengthbitmap>5000000){
+                    bitmap = null;
+                    Toast.makeText(EditProfile.this, "Gambar Terlalu Besar", Toast.LENGTH_LONG).show();
+                } else{
+                    iv_editFoto.setImageBitmap(bitmap);
+                }
+
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -153,7 +167,7 @@ public class EditProfile extends AppCompatActivity {
                     params.put("newpass", newPass);
                     params.put("newrepass", newRePass);
                     params.put("ischangepass", isChangePass.toString());
-                    params.put("foto", (bitmap==null ? "" : image2string(bitmap)));
+                    params.put("foto", (bitmap==null ? "" : image2string()));
                     params.put("fotosign", String.valueOf(System.currentTimeMillis()));
 
                     return params;
@@ -163,10 +177,7 @@ public class EditProfile extends AppCompatActivity {
         Volley.newRequestQueue(this).add(request);
     }
 
-    private String image2string(Bitmap bitmap){
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 75, byteArrayOutputStream);
-        byte[] imgBytes = byteArrayOutputStream.toByteArray();
+    private String image2string(){
         return Base64.encodeToString(imgBytes, Base64.DEFAULT);
     }
 
