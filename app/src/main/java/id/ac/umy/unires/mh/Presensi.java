@@ -128,12 +128,14 @@ public class Presensi extends Fragment implements OnMapReadyCallback,
                             if (!response.getBoolean("absenable")) {
                                 absen.setClickable(response.getBoolean("absenable"));
                                 absen.setBackgroundColor(getResources().getColor(R.color.colorFalse));
+                                checkBar.dismiss();
                             } else {
                                 cekAbsen(email);
                             }
                             Log.d("Log, ", "Response => " + response.toString());
-                            checkBar.dismiss();
+
                         } catch (JSONException e) {
+                            checkBar.dismiss();
                             e.printStackTrace();
                         }
                     }
@@ -141,6 +143,7 @@ public class Presensi extends Fragment implements OnMapReadyCallback,
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        checkBar.dismiss();
                         Toast.makeText(getContext(), error.getMessage() != null ? error.getMessage() : "", Toast.LENGTH_SHORT).show();
                         Log.d("Error Volley, ", "onErrorResponse => " + (error.getMessage() != null ? error.getMessage() : ""));
                     }
@@ -162,6 +165,7 @@ public class Presensi extends Fragment implements OnMapReadyCallback,
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        checkBar.dismiss();
                         Log.d("Error =>", error.getMessage() != null ? error.getMessage() : "");
                     }
                 }) {
@@ -186,7 +190,6 @@ public class Presensi extends Fragment implements OnMapReadyCallback,
                     @Override
                     public void onResponse(String response) {
                         if (response.equals("Sukses")) {
-                            checkBar.dismiss();
                             notif.setTitle("Sukses")
                                     .setCancelable(false)
                                     .setMessage("Anda Telah Absen")
@@ -197,7 +200,6 @@ public class Presensi extends Fragment implements OnMapReadyCallback,
                                         }
                                     }).show();
                         } else {
-                            checkBar.dismiss();
                             notif.setTitle("Gagal")
                                     .setMessage("Coba Lagi")
                                     .setCancelable(false)
@@ -208,6 +210,7 @@ public class Presensi extends Fragment implements OnMapReadyCallback,
                                         }
                                     }).show();
                         }
+                        checkBar.dismiss();
                     }
                 },
                 new Response.ErrorListener() {
