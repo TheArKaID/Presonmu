@@ -210,9 +210,9 @@ public class Home extends Fragment {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        checkBar.dismiss();
                         Toast.makeText(getContext(), error.getMessage() != null ? error.getMessage() : "", Toast.LENGTH_SHORT).show();
                         Log.d("loadMyDataError =>", error.getMessage() != null ? error.getMessage() : "");
-                        checkBar.dismiss();
                     }
                 }){
                 @Override
