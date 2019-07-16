@@ -10,4 +10,8 @@
     <string name="text_change_password">CHANGE PASSWORD</string>
     <string name="text_new_password">New Password</string>
     <string name="text_new_re_password">New Re Password</string>
+    <string name="notice_max_profile_picture">Maximal Ukurannya adalah 5MB</string>
+    <string name="nama">Nama</string>
+    <string name="status">Status</string>
+    <string name="password">Password</string>
 </resources>

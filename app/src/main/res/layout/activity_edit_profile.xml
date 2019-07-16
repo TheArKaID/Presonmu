@@ -31,6 +31,11 @@
                 android:contentDescription="@string/desc_edit_profile_picture"
                 tools:src="@drawable/icon_profile"
                 tools:tint="@color/colorPrimaryDark" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/notice_max_profile_picture"
+                android:textColor="@android:color/holo_red_dark"/>
 
             <EditText
                 android:id="@+id/editProfileNama"
@@ -40,7 +45,7 @@
                 android:layout_marginTop="15dp"
                 android:layout_marginEnd="15dp"
                 android:autofillHints="Nama"
-                android:hint="Nama"
+                android:hint="@string/nama"
                 android:inputType="text"
                 app:backgroundTint="@color/colorPrimaryDark"
                 tools:text="Nama" />
@@ -60,7 +65,7 @@
                     android:layout_marginTop="15dp"
                     android:layout_marginEnd="15dp"
                     android:autofillHints="Status"
-                    android:hint="Status"
+                    android:hint="@string/status"
                     android:inputType="text"
                     android:maxLength="20"
                     app:backgroundTint="@color/colorPrimaryDark"
@@ -76,7 +81,7 @@
                 android:layout_marginTop="15dp"
                 android:layout_marginEnd="15dp"
                 android:autofillHints="Password"
-                android:hint="Password"
+                android:hint="@string/password"
                 android:inputType="textPassword"
                 app:backgroundTint="@color/colorPrimaryDark"
                 tools:text="password" />
