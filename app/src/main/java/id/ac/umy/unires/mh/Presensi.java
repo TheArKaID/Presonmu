@@ -330,7 +330,7 @@ public class Presensi extends Fragment implements OnMapReadyCallback,
 
         currentLocationMarker = map.addMarker(markerOptions);
 
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16));
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, map.getCameraPosition().zoom));
 
     }
 
