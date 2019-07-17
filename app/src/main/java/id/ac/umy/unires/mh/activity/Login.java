@@ -1,4 +1,4 @@
-package id.ac.umy.unires.mh;
+package id.ac.umy.unires.mh.activity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -26,6 +26,8 @@ import java.net.URL;
 import java.security.MessageDigest;
 import java.util.HashMap;
 import java.util.Map;
+
+import id.ac.umy.unires.mh.R;
 
 import static id.ac.umy.unires.mh.Utils.ServerAPI.LOGIN_URL;
 

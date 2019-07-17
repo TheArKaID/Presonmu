@@ -1,4 +1,4 @@
-package id.ac.umy.unires.mh;
+package id.ac.umy.unires.mh.fragment;
 
 import android.Manifest;
 import android.app.ProgressDialog;
@@ -48,7 +48,10 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-import static id.ac.umy.unires.mh.MainActivity.*;
+import id.ac.umy.unires.mh.R;
+import id.ac.umy.unires.mh.activity.Welcome;
+
+import static id.ac.umy.unires.mh.activity.MainActivity.*;
 import static id.ac.umy.unires.mh.Utils.ServerAPI.*;
 
 public class Presensi extends Fragment implements OnMapReadyCallback,

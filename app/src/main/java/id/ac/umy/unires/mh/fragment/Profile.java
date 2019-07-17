@@ -1,4 +1,4 @@
-package id.ac.umy.unires.mh;
+package id.ac.umy.unires.mh.fragment;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -29,7 +29,10 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-import static id.ac.umy.unires.mh.MainActivity.email;
+import id.ac.umy.unires.mh.R;
+import id.ac.umy.unires.mh.activity.EditProfile;
+
+import static id.ac.umy.unires.mh.activity.MainActivity.email;
 import static id.ac.umy.unires.mh.Utils.ServerAPI.CEKPROFILE_URL;
 
 public class Profile extends Fragment {

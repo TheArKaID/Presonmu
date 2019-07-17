@@ -1,4 +1,4 @@
-package id.ac.umy.unires.mh;
+package id.ac.umy.unires.mh.activity;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -20,6 +20,8 @@ import com.android.volley.toolbox.Volley;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import id.ac.umy.unires.mh.R;
 
 import static id.ac.umy.unires.mh.Utils.ServerAPI.VERSIONCHECK_URL;
 

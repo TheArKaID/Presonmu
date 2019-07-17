@@ -15,12 +15,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".EditProfile"></activity>
-        <activity android:name=".Home" />
-        <activity android:name=".Login" />
-        <activity android:name=".MainActivity" />
-        <activity android:name=".Welcome" />
-        <activity android:name=".SplashActivity">
+        <activity android:name=".activity.EditProfile"></activity>
+        <activity android:name=".fragment.Home" />
+        <activity android:name=".activity.Login" />
+        <activity android:name=".activity.MainActivity" />
+        <activity android:name=".activity.Welcome" />
+        <activity android:name=".activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

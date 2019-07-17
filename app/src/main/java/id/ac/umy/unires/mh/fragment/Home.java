@@ -1,4 +1,4 @@
-package id.ac.umy.unires.mh;
+package id.ac.umy.unires.mh.fragment;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -35,10 +35,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import id.ac.umy.unires.mh.R;
 import id.ac.umy.unires.mh.adapters.StatusAdapter;
 import id.ac.umy.unires.mh.model.StatusModel;
 
-import static id.ac.umy.unires.mh.MainActivity.email;
+import static id.ac.umy.unires.mh.activity.MainActivity.email;
 import static id.ac.umy.unires.mh.Utils.ServerAPI.*;
 
 public class Home extends Fragment {

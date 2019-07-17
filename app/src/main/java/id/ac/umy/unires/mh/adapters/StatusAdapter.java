@@ -13,7 +13,6 @@ import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
-import id.ac.umy.unires.mh.Home;
 import id.ac.umy.unires.mh.R;
 import id.ac.umy.unires.mh.model.StatusModel;
 

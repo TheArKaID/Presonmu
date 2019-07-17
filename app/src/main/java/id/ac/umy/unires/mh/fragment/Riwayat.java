@@ -1,4 +1,4 @@
-package id.ac.umy.unires.mh;
+package id.ac.umy.unires.mh.fragment;
 
 import android.app.ProgressDialog;
 import android.graphics.Color;
@@ -12,7 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import static id.ac.umy.unires.mh.MainActivity.email;
+import static id.ac.umy.unires.mh.activity.MainActivity.email;
 import static id.ac.umy.unires.mh.Utils.ServerAPI.CEKRIWAYAT_URL;
 
 import com.android.volley.AuthFailureError;
@@ -29,16 +29,16 @@ import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
-import com.github.mikephil.charting.formatter.LargeValueFormatter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+
+import id.ac.umy.unires.mh.R;
 
 public class Riwayat extends Fragment {
 

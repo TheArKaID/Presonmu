@@ -1,4 +1,4 @@
-package id.ac.umy.unires.mh;
+package id.ac.umy.unires.mh.activity;
 
 import android.content.DialogInterface;
 import android.support.annotation.NonNull;
@@ -11,6 +11,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+
+import id.ac.umy.unires.mh.fragment.About;
+import id.ac.umy.unires.mh.fragment.Home;
+import id.ac.umy.unires.mh.fragment.Presensi;
+import id.ac.umy.unires.mh.fragment.Profile;
+import id.ac.umy.unires.mh.R;
+import id.ac.umy.unires.mh.fragment.Riwayat;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 

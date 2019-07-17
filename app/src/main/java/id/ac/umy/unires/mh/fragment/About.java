@@ -1,4 +1,4 @@
-package id.ac.umy.unires.mh;
+package id.ac.umy.unires.mh.fragment;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
@@ -20,6 +20,8 @@ import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import id.ac.umy.unires.mh.R;
 
 import static id.ac.umy.unires.mh.Utils.ServerAPI.ABOUT_URL;
 

@@ -1,4 +1,4 @@
-package id.ac.umy.unires.mh;
+package id.ac.umy.unires.mh.activity;
 
 import android.Manifest;
 import android.app.AlertDialog;
@@ -30,6 +30,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+
+import id.ac.umy.unires.mh.R;
 
 import static id.ac.umy.unires.mh.Utils.ServerAPI.LOGIN_URL;
 
