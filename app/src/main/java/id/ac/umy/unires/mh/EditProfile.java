@@ -91,10 +91,7 @@ public class EditProfile extends AppCompatActivity {
                 newRePass = et_newRePass.getText().toString();
                 email = bundle.getString("email");
 
-                if (newPass.equals("") && newRePass.equals(""))
-                    isChangePass = false;
-                else
-                    isChangePass = true;
+                isChangePass = !newPass.equals("") || !newRePass.equals("");
                 saveMyData();
             }
         });
